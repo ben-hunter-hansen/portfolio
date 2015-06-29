@@ -1,62 +1,189 @@
 /* app css stylesheet */
+html, body {
+    margin: 0;
+}
 
 .menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+    list-style: none;
+    border-bottom: 0.1em solid black;
+    margin-bottom: 2em;
+    padding: 0 0 0.5em;
 }
 
 .menu:before {
-  content: "[";
+    content: "[";
 }
 
 .menu:after {
-  content: "]";
+    content: "]";
 }
 
 .menu > li {
-  display: inline;
+    display: inline;
 }
 
 .menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+    content: "|";
+    padding-right: 0.3em;
 }
 
 .menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+    content: "";
+    padding: 0;
 }
 
 .view-slide-in.ng-enter {
-  transition: all 1s ease;
-  -webkit-transition:all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
+    transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
 
-  opacity:0.5;
-  position:relative;
-  opacity:0;
-  top:10px;
-  left:20px;
+    opacity: 0.5;
+    position: relative;
+    opacity: 0;
+    top: 10px;
+    left: 20px;
 }
 
 .view-slide-in.ng-enter {
-  opacity: 0;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
 }
+
 .view-slide-in.ng-enter.ng-enter-active {
-  top:0;
-  left:0;
-  opacity: 1;
+    top: 0;
+    left: 0;
+    opacity: 1;
 }
-.view-slide-in.ng-leave.ng-leave-active{
-  top:5px;
-  left:5px;
-  opacity:1;
+
+.view-slide-in.ng-leave.ng-leave-active {
+    top: 5px;
+    left: 5px;
+    opacity: 1;
 }
-.view-slide-in.ng-leave{
-  top:0;
-  left:0;
-  opacity:0;
+
+.view-slide-in.ng-leave {
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.main-section {
+    padding-top: 1em;
+}
+
+.nav-icon {
+    margin-left: 1rem;
+    color: #ffffff;
+}
+
+.icon-adjust {
+    line-height: 1.5em;
+}
+
+.footer {
+    background-color: #292c2f;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 4rem;
+}
+
+.footer .inline-list a {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-color: #33383b;
+    border-radius: 2px;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    line-height: 35px;
+    margin: 0 3px 0 0;
+}
+
+.footer .contact {
+    list-style-type: none;
+    margin: 0;
+    text-align: left;
+    color: #fff;
+}
+
+.footer .contact li {
+    margin-bottom: 2rem;
+}
+
+.footer .contact li p {
+    padding-left: 5rem;
+}
+
+.footer .contact i {
+    position: absolute;
+    background-color: #33383b;
+    color: #fff;
+    font-size: 2rem;
+    border-radius: 50%;
+    line-height: 1;
+    margin: 0 0 0 -4rem;
+    vertical-align: middle;
+    padding: .25em .45em;
+}
+
+.footer .copywrite {
+    color: #8f9296;
+    font-size: 0.875rem;
+    margin: 0 0 1rem 0;
+}
+
+.footer .about {
+    color: #92999f;
+    font-size: 0.875rem;
+    margin: 0 0 1rem 0;
+}
+
+.footer .footer-links a {
+    list-style: none;
+    font-weight: normal;
+    color: #fff;
+    padding: 3rem 0 2rem;
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.footer .footer-links a::after {
+    content: "•";
+    padding: 0 0.2rem 0 0.4rem;
+}
+
+.footer .footer-links a:last-child::after {
+    content: "";
+    padding: 0 0.4rem 0 0.8rem;
+}
+
+@media only screen and (min-width: 40.063em) {
+    .footer p {
+        text-align: left;
+    }
+
+    .footer .social {
+        text-align: left;
+        margin: 0;
+    }
+
+    .footer .contact {
+        text-align: left;
+    }
+
+    .footer .contact > i {
+        margin-right: 1rem;
+    }
+}
+
+.logo {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.logo i {
+    margin-right: 0.5rem;
 }

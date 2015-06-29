@@ -1,46 +1,115 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
+    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
 
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+<div class="off-canvas-wrap" data-offcanvas>
+    <div class="inner-wrap">
+        <nav class="tab-bar">
+            <section class="left-small">
+                <a class="left-off-canvas-toggle menu-icon" href=""><span></span></a>
+            </section>
+            <section class="middle tab-bar-section">
+                <h1>{{ currentView || "Benjamin Hansen" }}</h1>
+            </section>
+            <section class="right tab-bar-section">
+                <a href="#" class="fa fa-github nav-icon"></a>
+                <a href="#" class="fa fa-facebook nav-icon"></a>
+                <a href="#" class="fa fa-linkedin nav-icon"></a>
+                <a href="#" class="fa fa-twitter nav-icon"></a>
+            </section>
+        </nav>
+        <aside class="left-off-canvas-menu">
+            <ul class="off-canvas-list">
+                <li><label>Benjamin Hansen</label></li>
+                <li><a href="#/welcome" ng-click="currentView = 'Benjamin Hansen'">Home</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#/activity" ng-click="currentView = 'Recent Activity'">Activity</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </aside>
+        <section class="main-section">
+            <div ng-view style="height: 80vh" class="view-slide-in"></div>
+        </section>
 
-  <div ng-view class="view-slide-in"></div>
+        <a class="exit-off-canvas"></a>
+    </div>
+    <footer class="footer">
+        <div class="row">
+            <div class="small-12 medium-6 large-5 columns">
+                <p class="logo"><i class="fi-shield"></i> Benjamin Hansen</p>
+                <p class="footer-links">
+                    <a href="#">Home</a>
+                    <a href="#">Projects</a>
+                    <a href="#">Activity</a>
+                    <a href="#">About</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Contact</a>
+                </p>
+                <p class="copywrite">Copywrite not copywrite © 2015</p>
+            </div>
+            <div class="small-12 medium-6 large-4 columns">
+                <ul class="contact">
+                    <li><p><i class="fi-marker"></i>Minneapolis, MN</p></li>
+                    <li><p><i class="fi-telephone"></i>+1-555-555-5555</p></li>
+                    <li><p><i class="fi-mail"></i>ben@bensdevblog.com</p></li>
+                </ul>
+            </div>
+            <div class="small-12 medium-12 large-3 columns">
+                <p class="about">About Ben</p>
+                <p class="about subheader">I'm so cool, you can't even handle it brah</p>
+                <ul class="inline-list social">
+                    <a href="#"><i class="fi-social-facebook"></i></a>
+                    <a href="#"><i class="fi-social-twitter"></i></a>
+                    <a href="#"><i class="fi-social-linkedin"></i></a>
+                    <a href="#"><i class="fi-social-github"></i></a>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
 
-  <div>Angular seed app: v<span app-version></span></div>
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
+<script src="app.js"></script>
+<script src="landing/landing.js"></script>
+<script src="activity/activity.js"></script>
+<script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script>
+<script src="components/clickable/clickable.js"></script>
+<script src="components/clickable/clickable-directive.js"></script>
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.js"></script>
-  <script src="bower_components/angular-bootstrap/angular-bootstrap.js"></script>
-  <script src="app.js"></script>
-  <script src="view1/view1.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>

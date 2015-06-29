@@ -1,0 +1,80 @@
+<style>
+    nav .button {
+        border: 0;
+        background: none;
+        -webkit-box-shadow: 0;
+        -moz-box-shadow: 0;
+        box-shadow: 0;
+        font-size: 0.65em;
+        color: #555555;
+        text-transform: uppercase;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+    nav .button:hover {
+        background: none;
+        -webkit-box-shadow: 0px 2px 0px #008CBA;
+        -moz-box-shadow: 0px 2px 0px #008CBA;
+        box-shadow: 0px 2px 0px #008CBA;
+        color: #555555;
+    }
+    nav .button:focus {
+        background: none;
+        -webkit-box-shadow: 0px 2px 0px #43AC6A;
+        -moz-box-shadow: 0px 2px 0px #43AC6A;
+        box-shadow: 0px 2px 0px #43AC6A;
+        color: #555555;
+    }
+    nav .button:active {
+        -webkit-box-shadow: 0px 2px 0px #43AC6A;
+        -moz-box-shadow: 0px 2px 0px #43AC6A;
+        box-shadow: 0px 2px 0px #43AC6A;
+        background: none;
+        color: #555555;
+    }
+</style>
+<nav class="row">
+    <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
+        <ul class="button-group radius even-4">
+            <li><a class="button" href="">GitHub</a></li>
+            <li><a class="button" href="">Facebook</a></li>
+            <li><a class="button" href="">Twitter</a></li>
+            <li><a class="button" href="">LinkedIn</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="row">
+    <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
+        <div class="row">
+            <div class="small-3 medium-2 large-2 columns"><img src="http://placehold.it/80x80&text=[img]"/></div>
+            <div class="small-9 medium-10 large-10 columns">
+                <p><strong>Activity Heading:</strong>
+                    Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo,
+                    chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.
+                </p>
+                <accordion close-others="oneAtATime">
+                    <accordion-group is-open="isopen">
+                        <accordion-heading>
+                            2 Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+                        </accordion-heading>
+                        <div class="row">
+                            <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                        </div>
+                    </accordion-group>
+                </accordion>
+
+            </div>
+        </div>
+
+
+        <hr/>
+
+
+    </div>
+
+</div>
