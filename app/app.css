@@ -32,6 +32,12 @@ html, body {
     padding: 0;
 }
 
+.menu-photo {
+    height: 150px;
+    width: 150px;
+    margin: 1em;
+}
+
 .view-slide-in.ng-enter {
     transition: all 1s ease;
     -webkit-transition: all 1s ease;
@@ -41,13 +47,13 @@ html, body {
     opacity: 0.5;
     position: relative;
     opacity: 0;
-    top: 10px;
-    left: 20px;
+    top: 0;
+    left: 0;
 }
 
 .view-slide-in.ng-enter {
     opacity: 0;
-    top: 50%;
+    top: 0%;
     left: 50%;
 }
 

@@ -8,7 +8,8 @@ angular.module('myApp', [
     'myApp.landing',
     'myApp.activity',
     'myApp.version',
-    'myApp.clickable'
+    'myApp.clickable',
+    'myApp.feed'
 ]).
 config(['$routeProvider', function ($routeProvider) {
     $routeProvider.otherwise({redirectTo: '/welcome'});

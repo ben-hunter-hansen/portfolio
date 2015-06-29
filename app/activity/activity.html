@@ -32,49 +32,53 @@
         background: none;
         color: #555555;
     }
+
+    #feed {
+        opacity: 1;
+    }
+    #feed.ng-enter {
+        -webkit-transition: 1.5s;
+        transition: 1.5s;
+        opacity: 0;
+    }
+    #feed.ng-enter-active {
+        opacity: 1;
+    }
 </style>
 <nav class="row">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <ul class="button-group radius even-4">
-            <li><a class="button" href="">GitHub</a></li>
-            <li><a class="button" href="">Facebook</a></li>
-            <li><a class="button" href="">Twitter</a></li>
-            <li><a class="button" href="">LinkedIn</a></li>
+            <li><a class="button" ng-click="getFeed('github')" href="">GitHub</a></li>
+            <li><a class="button" ng-click="getFeed('facebook')" href="">Facebook</a></li>
+            <li><a class="button" ng-click="getFeed('twitter')" href="">Twitter</a></li>
+            <li><a class="button" ng-click="getFeed('linkedin')" href="">LinkedIn</a></li>
         </ul>
     </div>
 </nav>
-<div class="row">
+<div class="row" id="feed" ng-repeat="post in feed">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <div class="row">
-            <div class="small-3 medium-2 large-2 columns"><img src="http://placehold.it/80x80&text=[img]"/></div>
+            <div class="small-3 medium-2 large-2 columns">
+                <img ng-src="{{ post.photo }}"/>
+            </div>
             <div class="small-9 medium-10 large-10 columns">
-                <p><strong>Activity Heading:</strong>
-                    Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo,
-                    chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.
+                <p><strong>{{ post.title }}</strong>
+                    {{ post.body }}
                 </p>
                 <accordion close-others="oneAtATime">
                     <accordion-group is-open="isopen">
                         <accordion-heading>
-                            2 Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+                            {{ post.comments.length }} Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
                         </accordion-heading>
-                        <div class="row">
-                            <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                            <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+                        <div class="row" ng-repeat="comment in post.comments">
+                            <div class="large-2 columns small-3"><img ng-src="{{ comment.photo }}"/></div>
+                            <div class="large-10 columns"><p>{{ comment.body }}</p></div>
                         </div>
                     </accordion-group>
                 </accordion>
-
             </div>
         </div>
 
-
         <hr/>
-
-
     </div>
-
 </div>
