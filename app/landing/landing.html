@@ -1,14 +1,51 @@
-<div class="row">
+<style>
+    @media only screen { .landing.row { text-align: center; } }
+    @media only screen and (max-width: 40em) { .landing.row { text-align: center; } } /* max-width 640px, mobile-only styles, use when QAing mobile issues */
+    @media only screen and (min-width: 40.063em) { .landing.row { text-align: center; } } /* min-width 641px, medium screens */
+    @media only screen and (min-width: 40.063em) and (max-width: 64em) { .landing.row { text-align: left; } } /* min-width 641px and max-width 1024px, use when QAing tablet-only issues */
+    @media only screen and (min-width: 64.063em) { .landing.row { text-align: left; } }/* min-width 1025px, large screens */
+    @media only screen and (min-width: 64.063em) and (max-width: 90em) { .landing.row { text-align: left; } } /* min-width 1025px and max-width 1440px, use when QAing large screen-only issues */
+    @media only screen and (min-width: 90.063em) { .landing.row { text-align: left; } }/* min-width 1441px, xlarge screens */
+    @media only screen and (min-width: 90.063em) and (max-width: 120em) { .landing.row { text-align: left; } }/* min-width 1441px and max-width 1920px, use when QAing xlarge screen-only issues */
+    @media only screen and (min-width: 120.063em) { } /* min-width 1921px, xxlarge */
+
+    .hero {
+        background: url("assets/img/stock_hero.png") no-repeat center center;
+        background-size: cover;
+        height: 50vh;
+
+        text-align: center !important;
+    }
+    .hero > div.title {
+        color: #fff;
+        text-align: center;
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        border-bottom: 2px solid;
+    }
+    .hero > div.title > h1 {
+        color: #fff;
+    }
+
+</style>
+
+<div class="landing row">
     <div class="large-12 columns">
-        <div id="slider">
-            <img src="http://placehold.it/1000x400&text=[ img 1 ]"/>
+        <div class="hero">
+            <div class="title">
+                <h1>Benjamin Hansen</h1>
+            </div>
         </div>
         <hr/>
     </div>
 </div>
-<div class="row">
-    <div class="small-4 medium-4 large-4 columns">
-        <img src="http://placehold.it/400x300&text=[img]"/>
+<div class="landing row">
+    <div class="small-12 medium-4 large-4 columns">
+
+        <img ng-src="assets/img/stock_1.png"/>
         <h4>This is a content section.</h4>
 
         <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in
@@ -17,7 +54,8 @@
     </div>
 
     <div class="small-12 medium-4 large-4 columns">
-        <img src="http://placehold.it/400x300&text=[img]"/>
+
+        <img ng-src="assets/img/stock_2.png"/>
         <h4>This is a content section.</h4>
 
         <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in
@@ -26,7 +64,7 @@
     </div>
 
     <div class="small-12 medium-4 large-4 columns">
-        <img src="http://placehold.it/400x300&text=[img]"/>
+        <img ng-src="assets/img/stock_3.png"/>
         <h4>This is a content section.</h4>
 
         <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in
@@ -37,18 +75,17 @@
 </div>
 
 
-<div class="row">
+<div class="landing row">
     <div class="large-12 columns">
 
         <div class="panel">
             <h4>Get in touch!</h4>
-
             <div class="row">
                 <div class="large-9 columns">
-                    <p>We'd love to hear from you, you attractive person you.</p>
+                    <p>I'd love to hear from you, you attractive person you.</p>
                 </div>
                 <div class="large-3 columns">
-                    <a href="#" class="radius button right">Contact Us</a>
+                    <a href="#" class="radius button right">Contact Me</a>
                 </div>
             </div>
         </div>
