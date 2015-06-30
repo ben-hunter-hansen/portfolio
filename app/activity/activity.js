@@ -10,7 +10,7 @@ angular.module('myApp.activity', ['ngRoute'])
         });
     }])
 
-    .controller('ActivityCtrl', ['$scope', 'Activity', function ($scope, Activity) {
+    .controller('ActivityCtrl', ['$scope', 'Feed', function ($scope, Feed) {
         $scope.feed = [];
 
         $scope.getFeed = function(type) {
@@ -18,7 +18,7 @@ angular.module('myApp.activity', ['ngRoute'])
             $scope.feed = [];
             for(var i = 0; i < randPosts; i++) {
                 var randCommnents = Math.floor((Math.random() * 5) + 1);
-                $scope.feed.push(Activity.placeholder(randCommnents,type));
+                $scope.feed.push(Feed.placeholder(randCommnents,type));
             }
         };
 

@@ -7,6 +7,7 @@ angular.module('myApp', [
     'mm.foundation',
     'myApp.landing',
     'myApp.activity',
+    'myApp.projects',
     'myApp.version',
     'myApp.clickable',
     'myApp.feed'

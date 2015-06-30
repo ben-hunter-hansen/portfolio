@@ -4,7 +4,7 @@
 
 angular.module('myApp.feed.activity-factory', [])
 
-.factory('Activity', function() {
+.factory('Feed', function() {
     var _defaultPhotos= {
         facebook: "assets/img/fb_icon.png",
         github: "assets/img/github_icon.png",
