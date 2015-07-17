@@ -25,6 +25,8 @@ angular.module('myApp.feed.activity-factory', [])
             var post = {
                 title: "@benhansen on " + type,photo: photo,
                 body: _postText,
+                points: Math.floor((Math.random() * 100) + 1),
+                hours_ago: Math.floor((Math.random() * 5) + 1),
                 comments: []
             };
 

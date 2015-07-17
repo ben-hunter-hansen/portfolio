@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="bower_components/foundation/css/foundation.css">
     <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="app-animations.css">
     <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body ng-init="currentView = 'Benjamin Hansen'">
@@ -62,7 +63,7 @@
             </ul>
         </aside>
         <section class="main-section">
-            <div ng-view style="height: 80vh" class="view-slide-in"></div>
+            <div ng-view style="height: 80vh" class="fade"></div>
         </section>
 
         <a class="exit-off-canvas"></a>

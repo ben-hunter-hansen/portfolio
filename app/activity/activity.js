@@ -25,8 +25,8 @@ angular.module('myApp.activity', ['ngRoute'])
             var randPosts = Math.floor((Math.random() * 10) + 1);
             $scope.feed = [];
             for(var i = 0; i < randPosts; i++) {
-                var randCommnents = Math.floor((Math.random() * 5) + 1);
-                $scope.feed.push(Feed.placeholder(randCommnents,option.display));
+                var randComments = Math.floor((Math.random() * 5) + 1);
+                $scope.feed.push(Feed.placeholder(randComments,option.display));
             }
         };
 

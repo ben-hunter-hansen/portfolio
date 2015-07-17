@@ -1,10 +1,25 @@
+<style>
+    accordion dd > a {
+        background: rgba(44,62,80,0.1) !important;
+    }
+    accordion dd > a:hover,accordion dd > a.active, accordion dd > a:visited {
+        background: rgba(44,62,80,0.2) !important;
+    }
+    div.icon-bar.five-up.small > a > i {
+        font-size: 1.5rem !important;
+        height: auto;
+    }
+    textarea.reply-box {
+       min-height: 10em;
+    }
+</style>
 <nav class="row">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <ul class="button-group radius even-4">
             <li>
                 <button id="gitFeed"
                         class="button feed-btn"
-                        ng-class="{hover: gitHover, focus: focusIndex == 0}"
+                        ng-class="{hover: gitHover, focus: focusIndex === feedOption.github.index}"
                         ng-mouseenter="gitHover = true"
                         ng-mouseleave="gitHover = false"
                         ng-click="getFeed(feedOption.github)">{{ feedOption.github.display }}
@@ -13,7 +28,7 @@
             <li>
                 <button id="fbFeed"
                         class="button feed-btn"
-                        ng-class="{hover: fbHover, focus: focusIndex == 1}"
+                        ng-class="{hover: fbHover, focus: focusIndex === feedOption.facebook.index}"
                         ng-mouseenter="fbHover = true"
                         ng-mouseleave="fbHover = false"
                         ng-click="getFeed(feedOption.facebook)">{{ feedOption.facebook.display }}
@@ -22,7 +37,7 @@
             <li>
                 <button id="twitterFeed"
                         class="button feed-btn"
-                        ng-class="{hover: twHover, focus: focusIndex == 2}"
+                        ng-class="{hover: twHover, focus: focusIndex === feedOption.twitter.index}"
                         ng-mouseenter="twHover = true"
                         ng-mouseleave="twHover = false"
                         ng-click="getFeed(feedOption.twitter)">{{ feedOption.twitter.display }}
@@ -31,7 +46,7 @@
             <li>
                 <button id="linkedinFeed"
                         class="button feed-btn"
-                        ng-class="{hover: linkedHover, focus: focusIndex == 3}"
+                        ng-class="{hover: linkedHover, focus: focusIndex === feedOption.linkedin.index}"
                         ng-mouseenter="linkedHover = true"
                         ng-mouseleave="linkedHover = false"
                         ng-click="getFeed(feedOption.linkedin)">{{ feedOption.linkedin.display }}
@@ -40,24 +55,47 @@
         </ul>
     </div>
 </nav>
-<div class="row fade" ng-repeat="post in feed">
+<div class="row repeated-item" ng-repeat="post in feed">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <div class="row">
             <div class="small-3 medium-2 large-2 columns">
                 <img ng-src="{{ post.photo }}"/>
             </div>
             <div class="small-9 medium-10 large-10 columns">
-                <p><strong>{{ post.title }}</strong>
-                    {{ post.body }}
-                </p>
+                <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hours ago</span><h5 class="subheader">{{ post.body }}</h5></h3>
+                <hr />
+                <div class="row" ng-init="reply = false; reset = false">
+                    <div class="large-8 small-8 columns" ng-hide="reply">
+                        <a href="#" class="button small left split no-pip">
+                            {{ post.points }} Points
+                            <span><i class="fa fa-thumbs-o-up"></i></span>
+                        </a>
+                    </div>
+                    <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
+                        <label style="font-size: large"> Leave a comment.
+                            <textarea placeholder="Type some crap here" class="reply-box"></textarea>
+                        </label>
+                    </div>
+                    <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
+                        <div class="row">
+                            <ul class="button-group round large-12 columns text-right">
+                                <li><a href="#" ng-click="reset = !reset" class="small button secondary">Cancel</a></li>
+                                <li><a href="#" class="small button">Submit</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="large-4 small-4 columns" ng-hide="reply" ng-show="cancel">
+                        <a href="#" ng-click="reply = !reply" class="button small success right">Reply</a>
+                    </div>
+                </div>
                 <accordion close-others="oneAtATime">
                     <accordion-group is-open="isopen">
                         <accordion-heading>
                             {{ post.comments.length }} Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
                         </accordion-heading>
                         <div class="row" ng-repeat="comment in post.comments">
-                            <div ng-if="isopen" class="large-2 medium-2 small-3 columns fade"><img ng-src="{{ comment.photo }}"/></div>
-                            <div ng-if="isopen" class="large-10 medium-10 small-9 columns fade"><p>{{ comment.body }}</p></div>
+                            <div ng-if="isopen" class="large-2 medium-2 small-3 columns repeated-item-fast"><img ng-src="{{ comment.photo }}"/></div>
+                            <div ng-if="isopen" class="large-10 medium-10 small-9 columns repeated-item-fast"><p>{{ comment.body }}</p></div>
                         </div>
                     </accordion-group>
                 </accordion>
