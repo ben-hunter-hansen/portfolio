@@ -18,11 +18,17 @@ angular.module('myApp.feed.activity-factory', [])
     var _postText = "Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo," +
         "chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.";
 
+    var _randomId = function() {
+        var timeStamp = Date.now(),
+            prefix = String.fromCharCode(65 + Math.floor((Math.random() * 25) + 1));
+        return prefix + timeStamp;
+    };
     return {
         placeholder: function(comments,type) {
             var photo = _defaultPhotos[type.toLowerCase()];
 
             var post = {
+                id: _randomId(),
                 title: "@benhansen on " + type,photo: photo,
                 body: _postText,
                 points: Math.floor((Math.random() * 100) + 1),
@@ -37,6 +43,9 @@ angular.module('myApp.feed.activity-factory', [])
                 });
             }
             return post;
+        },
+        submitReply: function(text) {
+            console.info("Comment submitted: ", text);
         }
     }
 });

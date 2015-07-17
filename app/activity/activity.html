@@ -1,16 +1,19 @@
 <style>
     accordion dd > a {
-        background: rgba(44,62,80,0.1) !important;
+        background: rgba(44, 62, 80, 0.1) !important;
     }
-    accordion dd > a:hover,accordion dd > a.active, accordion dd > a:visited {
-        background: rgba(44,62,80,0.2) !important;
+
+    accordion dd > a:hover, accordion dd > a.active, accordion dd > a:visited {
+        background: rgba(44, 62, 80, 0.2) !important;
     }
+
     div.icon-bar.five-up.small > a > i {
         font-size: 1.5rem !important;
         height: auto;
     }
+
     textarea.reply-box {
-       min-height: 10em;
+        min-height: 10em;
     }
 </style>
 <nav class="row">
@@ -62,46 +65,74 @@
                 <img ng-src="{{ post.photo }}"/>
             </div>
             <div class="small-9 medium-10 large-10 columns">
-                <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hours ago</span><h5 class="subheader">{{ post.body }}</h5></h3>
-                <hr />
-                <div class="row" ng-init="replyToggled = false">
-                    <div class="large-10 small-8 columns" ng-if="!getReplyToggled()">
+                <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hour(s) ago</span>
+                    <h5 class="subheader">{{ post.body }}</h5></h3>
+                <hr/>
+                <div class="row">
+                    <div class="large-10 medium-10 small-8 columns" ng-if="!getToggledReply(post.id)">
                         <a href="#" class="button tiny left split no-pip">
                             {{ post.points }} Points
                             <span><i class="fa fa-thumbs-o-up"></i></span>
                         </a>
                     </div>
-                    <div class="small-12 columns" ng-if="getReplyToggled()">
-                        <label style="font-size: large"> Leave a comment.
-                            <textarea placeholder="Type some crap here" class="reply-box"></textarea>
-                        </label>
-                    </div>
-                    <div class="small-12 columns" ng-if="getReplyToggled()" ng-hide="reset">
-                        <div class="row">
-                            <ul class="button-group round large-12 columns text-right">
-                                <li><a href="#" ng-click="setReplyToggled(0)" class="small button secondary">Cancel</a></li>
-                                <li><a href="#" class="small button">Submit</a></li>
-                            </ul>
+                    <ng-form name="replyForm">
+                        <div class="small-12 columns" ng-if="getToggledReply(post.id)">
+                            <div class="row">
+                                <div class="small-12 columns"
+                                     ng-class="{error: replyForm.input.$invalid && replyForm.input.$dirty}">
+                                    <label style="font-size: large"> Leave a comment.
+                                        <textarea ng-model="post.replyModel.text"
+                                                  name="input"
+                                                  ng-required="true"
+                                                  placeholder="Speak your mind"
+                                                  class="reply-box"
+                                                  ng-maxlength="200">
+                                        </textarea>
+                                        <small class="error"
+                                               ng-show="replyForm.input.$invalid && replyForm.input.$dirty">
+                                            {{ replyForm.input.$error.maxlength ? "Replies need to be under 200 chars."
+                                            : "This is a required field" }}
+                                        </small>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
+                        <div class="small-12 columns" ng-if="getToggledReply(post.id)">
+                            <div class="row">
+                                <ul class="button-group round large-12 columns text-right">
+                                    <li><a href="#" ng-click="setToggledReply(post.id)" class="small button secondary">Cancel</a>
+                                    </li>
+                                    <li><a href="#"
+                                           ng-class="{disabled: replyForm.input.$invalid}"
+                                           ng-disabled="replyForm.input.$invalid"
+                                           ng-click="submitReply(post.replyModel.text)"
+                                           class="small button">Submit</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-form>
+                    <div class="large-2 medium-2 small-4 columns" ng-if="!getToggledReply(post.id)">
+                        <a href="#" ng-click="setToggledReply(post.id)" class="button tiny success right">Reply</a>
                     </div>
-                    <div class="large-2 small-4 columns" ng-if="!getReplyToggled()">
-                        <a href="#" ng-click="setReplyToggled(1)" class="button tiny success right">Reply</a>
+                    <div class="large-12 columns">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group is-open="isopen">
+                                <accordion-heading>
+                                    {{ post.comments.length }} Comments <i class="right icon-adjust"
+                                                                           ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+                                </accordion-heading>
+                                <div class="row" ng-repeat="comment in post.comments">
+                                    <div ng-if="isopen" class="large-2 medium-2 small-3 columns repeated-item-fast"><img
+                                            ng-src="{{ comment.photo }}"/></div>
+                                    <div ng-if="isopen" class="large-10 medium-10 small-9 columns repeated-item-fast"><p>{{
+                                        comment.body }}</p></div>
+                                </div>
+                            </accordion-group>
+                        </accordion>
                     </div>
                 </div>
-                <accordion close-others="oneAtATime">
-                    <accordion-group is-open="isopen">
-                        <accordion-heading>
-                            {{ post.comments.length }} Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
-                        </accordion-heading>
-                        <div class="row" ng-repeat="comment in post.comments">
-                            <div ng-if="isopen" class="large-2 medium-2 small-3 columns repeated-item-fast"><img ng-src="{{ comment.photo }}"/></div>
-                            <div ng-if="isopen" class="large-10 medium-10 small-9 columns repeated-item-fast"><p>{{ comment.body }}</p></div>
-                        </div>
-                    </accordion-group>
-                </accordion>
             </div>
         </div>
-
         <hr/>
     </div>
 </div>

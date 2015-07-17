@@ -19,12 +19,18 @@ angular.module('myApp.activity', ['ngRoute'])
             twitter: { index: 3, display: 'Twitter' },
         };
         $scope.focusIndex = 0;
-        var _replyToggled = false;
-        $scope.getReplyToggled = function() {
-            return _replyToggled;
+
+        var _toggledReplyId = 0;
+        $scope.getToggledReply = function(id) {
+            return id === _toggledReplyId;
         };
-        $scope.setReplyToggled = function(state) {
-            _replyToggled = !!state;
+        $scope.setToggledReply = function(id) {
+            _toggledReplyId = _toggledReplyId !== id ? id : 0;
+        };
+        $scope.submitReply = function(reply) {
+            if(reply) {
+                Feed.submitReply(reply);
+            }
         };
 
         $scope.getFeed = function(option) {
@@ -32,11 +38,12 @@ angular.module('myApp.activity', ['ngRoute'])
             var randPosts = Math.floor((Math.random() * 10) + 1);
             $scope.feed = [];
             for(var i = 0; i < randPosts; i++) {
-                var randComments = Math.floor((Math.random() * 5) + 1);
-                $scope.feed.push(Feed.placeholder(randComments,option.display));
+                var randComments = Math.floor((Math.random() * 5) + 1),
+                    sample = Feed.placeholder(randComments,option.display);
+                sample["replyModel"] = { text: "" };
+                $scope.feed.push(sample);
             }
         };
-
 
 
         // Using a timeout to break out of current $apply cycle,
