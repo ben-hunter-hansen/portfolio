@@ -10,17 +10,55 @@ angular.module('myApp.activity', ['ngRoute'])
         });
     }])
 
-    .controller('ActivityCtrl', ['$scope', 'Feed', function ($scope, Feed) {
+    .controller('ActivityCtrl', ['$scope', 'Feed', '$timeout', function ($scope, Feed, $timeout) {
         $scope.feed = [];
+        $scope.feedOption = {
+            github: { index: 0, display: 'GitHub' },
+            facebook: { index: 1, display: 'Facebook' },
+            linkedin: { index: 2, display: 'LinkedIn' },
+            twitter: { index: 3, display: 'Twitter' },
+        };
+        $scope.focusIndex = 0;
 
-        $scope.getFeed = function(type) {
+        $scope.getFeed = function(option) {
+            $scope.focusIndex = option.index;
             var randPosts = Math.floor((Math.random() * 10) + 1);
             $scope.feed = [];
             for(var i = 0; i < randPosts; i++) {
                 var randCommnents = Math.floor((Math.random() * 5) + 1);
-                $scope.feed.push(Feed.placeholder(randCommnents,type));
+                $scope.feed.push(Feed.placeholder(randCommnents,option.display));
             }
         };
 
-        $scope.getFeed('github');
+        $scope.swipedLeft = function(index) {
+            if(index >= 3) {
+                return;
+            } else {
+                $scope.focusIndex++;
+                angular.forEach($scope.feedOption, function(opt) {
+                    if(opt.index === $scope.focusIndex) {
+                        this.getFeed(opt);
+                    }
+                },$scope);
+            }
+        };
+        $scope.swipedRight = function(index) {
+            if(index <= 0) {
+                return;
+            } else {
+                $scope.focusIndex--;
+                angular.forEach($scope.feedOption, function(opt) {
+                    if(opt.index === $scope.focusIndex) {
+                        this.getFeed(opt);
+                    }
+                },$scope);
+            }
+        };
+
+
+        // Using a timeout to break out of current $apply cycle,
+        // simulate click on github feed
+        $timeout(function() {
+            angular.element(document.querySelector('#gitFeed')).triggerHandler('click');
+        },0);
     }]);

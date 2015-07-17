@@ -1,61 +1,49 @@
-<style>
-    nav .button {
-        border: 0;
-        background: none;
-        -webkit-box-shadow: 0;
-        -moz-box-shadow: 0;
-        box-shadow: 0;
-        font-size: 0.65em;
-        color: #555555;
-        text-transform: uppercase;
-        padding-top: 25px;
-        padding-bottom: 25px;
-    }
-    nav .button:hover {
-        background: none;
-        -webkit-box-shadow: 0px 2px 0px #008CBA;
-        -moz-box-shadow: 0px 2px 0px #008CBA;
-        box-shadow: 0px 2px 0px #008CBA;
-        color: #555555;
-    }
-    nav .button:focus {
-        background: none;
-        -webkit-box-shadow: 0px 2px 0px #43AC6A;
-        -moz-box-shadow: 0px 2px 0px #43AC6A;
-        box-shadow: 0px 2px 0px #43AC6A;
-        color: #555555;
-    }
-    nav .button:active {
-        -webkit-box-shadow: 0px 2px 0px #43AC6A;
-        -moz-box-shadow: 0px 2px 0px #43AC6A;
-        box-shadow: 0px 2px 0px #43AC6A;
-        background: none;
-        color: #555555;
-    }
-
-    #feed {
-        opacity: 1;
-    }
-    #feed.ng-enter {
-        -webkit-transition: 1.5s;
-        transition: 1.5s;
-        opacity: 0;
-    }
-    #feed.ng-enter-active {
-        opacity: 1;
-    }
-</style>
 <nav class="row">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <ul class="button-group radius even-4">
-            <li><a class="button" ng-click="getFeed('github')" href="">GitHub</a></li>
-            <li><a class="button" ng-click="getFeed('facebook')" href="">Facebook</a></li>
-            <li><a class="button" ng-click="getFeed('twitter')" href="">Twitter</a></li>
-            <li><a class="button" ng-click="getFeed('linkedin')" href="">LinkedIn</a></li>
+            <li>
+                <button id="gitFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: gitHover, focus: focusIndex == 0}"
+                        ng-mouseenter="gitHover = true"
+                        ng-mouseleave="gitHover = false"
+                        ng-click="getFeed(feedOption.github)">{{ feedOption.github.display }}
+                </button>
+            </li>
+            <li>
+                <button id="fbFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: fbHover, focus: focusIndex == 1}"
+                        ng-mouseenter="fbHover = true"
+                        ng-mouseleave="fbHover = false"
+                        ng-click="getFeed(feedOption.facebook)">{{ feedOption.facebook.display }}
+                </button>
+            </li>
+            <li>
+                <button id="twitterFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: twHover, focus: focusIndex == 2}"
+                        ng-mouseenter="twHover = true"
+                        ng-mouseleave="twHover = false"
+                        ng-click="getFeed(feedOption.twitter)">{{ feedOption.twitter.display }}
+                </button>
+            </li>
+            <li>
+                <button id="linkedinFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: linkedHover, focus: focusIndex == 3}"
+                        ng-mouseenter="linkedHover = true"
+                        ng-mouseleave="linkedHover = false"
+                        ng-click="getFeed(feedOption.linkedin)">{{ feedOption.linkedin.display }}
+                </button>
+            </li>
         </ul>
     </div>
 </nav>
-<div class="row" id="feed" ng-repeat="post in feed">
+<div class="row fade"
+     ng-repeat="post in feed"
+     ng-swipe-left="swipedLeft(focusIndex)"
+     ng-swipe-right="swipedRight(focusIndex)">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <div class="row">
             <div class="small-3 medium-2 large-2 columns">
@@ -71,8 +59,8 @@
                             {{ post.comments.length }} Comments <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
                         </accordion-heading>
                         <div class="row" ng-repeat="comment in post.comments">
-                            <div class="large-2 columns small-3"><img ng-src="{{ comment.photo }}"/></div>
-                            <div class="large-10 columns"><p>{{ comment.body }}</p></div>
+                            <div ng-if="isopen" class="large-2 medium-2 small-3 columns fade"><img ng-src="{{ comment.photo }}"/></div>
+                            <div ng-if="isopen" class="large-10 medium-10 small-9 columns fade"><p>{{ comment.body }}</p></div>
                         </div>
                     </accordion-group>
                 </accordion>

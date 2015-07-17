@@ -20,7 +20,7 @@ angular.module('myApp.feed.activity-factory', [])
 
     return {
         placeholder: function(comments,type) {
-            var photo = _defaultPhotos[type];
+            var photo = _defaultPhotos[type.toLowerCase()];
 
             var post = {
                 title: "@benhansen on " + type,photo: photo,
@@ -30,7 +30,7 @@ angular.module('myApp.feed.activity-factory', [])
 
             for(var i = 0; i < comments; i++) {
                 post.comments.push({
-                    photo: _defaultPhotos[type],
+                    photo: _defaultPhotos[type.toLowerCase()],
                     body: _commentText
                 });
             }
