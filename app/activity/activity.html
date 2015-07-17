@@ -65,30 +65,27 @@
                 <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hours ago</span><h5 class="subheader">{{ post.body }}</h5></h3>
                 <hr />
                 <div class="row" ng-init="reply = false; reset = false">
+                    <div class="large-10 small-8 columns" ng-hide="reply">
+                        <a href="#" class="button tiny left split no-pip">
+                            {{ post.points }} Points
+                            <span><i class="fa fa-thumbs-o-up"></i></span>
+                        </a>
+                    </div>
                     <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
                         <label style="font-size: large"> Leave a comment.
                             <textarea placeholder="Type some crap here" class="reply-box"></textarea>
                         </label>
                     </div>
                     <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
-                        <ul class="button-group round  text-right">
-                            <li><a href="#" ng-click="reset = !reset" class="small button secondary">Cancel</a></li>
-                            <li><a href="#" class="small button">Submit</a></li>
-                        </ul>
-                    </div>
-                    <div class="small-12 columns" ng-hide="reply" ng-show="cancel">
                         <div class="row">
-                            <div class="large-10 large-offset-1 columns">
-                                <a href="#" class="button tiny split no-pip">
-                                    {{ post.points }} Points
-                                    <span><i class="fa fa-thumbs-o-up"></i></span>
-                                </a>
-                            </div>
-                            <div class="large-1 columns">
-                                <a href="#" ng-click="reply = !reply" class="button tiny success">Reply</a>
-                            </div>
+                            <ul class="button-group round large-12 columns text-right">
+                                <li><a href="#" ng-click="reset = !reset" class="small button secondary">Cancel</a></li>
+                                <li><a href="#" class="small button">Submit</a></li>
+                            </ul>
                         </div>
-
+                    </div>
+                    <div class="large-2 small-4 columns" ng-hide="reply" ng-show="cancel">
+                        <a href="#" ng-click="reply = !reply" class="button tiny success right">Reply</a>
                     </div>
                 </div>
                 <accordion close-others="oneAtATime">
