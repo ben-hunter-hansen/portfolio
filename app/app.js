@@ -4,7 +4,6 @@
 angular.module('myApp', [
     'ngRoute',
     'ngAnimate',
-    'ngTouch',
     'mm.foundation',
     'myApp.landing',
     'myApp.activity',

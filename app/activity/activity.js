@@ -30,30 +30,6 @@ angular.module('myApp.activity', ['ngRoute'])
             }
         };
 
-        $scope.swipedLeft = function(index) {
-            if(index >= 3) {
-                return;
-            } else {
-                $scope.focusIndex++;
-                angular.forEach($scope.feedOption, function(opt) {
-                    if(opt.index === $scope.focusIndex) {
-                        this.getFeed(opt);
-                    }
-                },$scope);
-            }
-        };
-        $scope.swipedRight = function(index) {
-            if(index <= 0) {
-                return;
-            } else {
-                $scope.focusIndex--;
-                angular.forEach($scope.feedOption, function(opt) {
-                    if(opt.index === $scope.focusIndex) {
-                        this.getFeed(opt);
-                    }
-                },$scope);
-            }
-        };
 
 
         // Using a timeout to break out of current $apply cycle,
