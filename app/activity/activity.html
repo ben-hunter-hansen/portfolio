@@ -64,28 +64,28 @@
             <div class="small-9 medium-10 large-10 columns">
                 <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hours ago</span><h5 class="subheader">{{ post.body }}</h5></h3>
                 <hr />
-                <div class="row" ng-init="reply = false; reset = false">
-                    <div class="large-10 small-8 columns" ng-hide="reply">
+                <div class="row" ng-init="replyToggled = false">
+                    <div class="large-10 small-8 columns" ng-if="!getReplyToggled()">
                         <a href="#" class="button tiny left split no-pip">
                             {{ post.points }} Points
                             <span><i class="fa fa-thumbs-o-up"></i></span>
                         </a>
                     </div>
-                    <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
+                    <div class="small-12 columns" ng-if="getReplyToggled()">
                         <label style="font-size: large"> Leave a comment.
                             <textarea placeholder="Type some crap here" class="reply-box"></textarea>
                         </label>
                     </div>
-                    <div class="small-12 columns" ng-if="reply" ng-class="{hide: reset}">
+                    <div class="small-12 columns" ng-if="getReplyToggled()" ng-hide="reset">
                         <div class="row">
                             <ul class="button-group round large-12 columns text-right">
-                                <li><a href="#" ng-click="reset = !reset" class="small button secondary">Cancel</a></li>
+                                <li><a href="#" ng-click="setReplyToggled(0)" class="small button secondary">Cancel</a></li>
                                 <li><a href="#" class="small button">Submit</a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="large-2 small-4 columns" ng-hide="reply" ng-show="cancel">
-                        <a href="#" ng-click="reply = !reply" class="button tiny success right">Reply</a>
+                    <div class="large-2 small-4 columns" ng-if="!getReplyToggled()">
+                        <a href="#" ng-click="setReplyToggled(1)" class="button tiny success right">Reply</a>
                     </div>
                 </div>
                 <accordion close-others="oneAtATime">

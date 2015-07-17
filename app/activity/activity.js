@@ -19,6 +19,13 @@ angular.module('myApp.activity', ['ngRoute'])
             twitter: { index: 3, display: 'Twitter' },
         };
         $scope.focusIndex = 0;
+        var _replyToggled = false;
+        $scope.getReplyToggled = function() {
+            return _replyToggled;
+        };
+        $scope.setReplyToggled = function(state) {
+            _replyToggled = !!state;
+        };
 
         $scope.getFeed = function(option) {
             $scope.focusIndex = option.index;
