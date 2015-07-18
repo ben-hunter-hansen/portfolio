@@ -11,6 +11,11 @@ app.use(express.static(__dirname + '/app'));
 
 MongoClient.connect(dbUrl, function(err,db) {
     var connection = { db: db, err: err };
+    if(!err) {
+        console.info('we got a connection')
+    } else {
+        console.info('shit',err);
+    }
     return connection;
 });
 
