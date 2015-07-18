@@ -4,8 +4,13 @@
 
 angular.module('myApp.feed.activity-factory', [])
 
-.factory('Feed', function() {
-    var _defaultPhotos= {
+.factory('Feed',['$http', function($http) {
+
+    var _apiUrl = {
+        comments: 'http://localhost:3000/feed/comments'
+    };
+
+    var _defaultPhotos = {
         facebook: "assets/img/fb_icon.png",
         github: "assets/img/github_icon.png",
         linkedin: "assets/img/linkedin_icon.png",
@@ -44,8 +49,9 @@ angular.module('myApp.feed.activity-factory', [])
             }
             return post;
         },
-        submitReply: function(text) {
-            console.info("Comment submitted: ", text);
+        submitReply: function(reply) {
+            var payload = { comment: reply.text, ref: reply.postId  };
+            return $http.post(_apiUrl.comments, payload);
         }
     }
-});
+}]);

@@ -10,7 +10,7 @@ angular.module('myApp.activity', ['ngRoute'])
         });
     }])
 
-    .controller('ActivityCtrl', ['$scope', 'Feed', '$timeout', function ($scope, Feed, $timeout) {
+    .controller('ActivityCtrl', ['$scope', 'Feed', '$timeout','$http', function ($scope, Feed, $timeout,$http) {
         $scope.feed = [];
         $scope.feedOption = {
             github: { index: 0, display: 'GitHub' },
@@ -27,9 +27,15 @@ angular.module('myApp.activity', ['ngRoute'])
         $scope.setToggledReply = function(id) {
             _toggledReplyId = _toggledReplyId !== id ? id : 0;
         };
-        $scope.submitReply = function(reply) {
-            if(reply) {
-                Feed.submitReply(reply);
+        $scope.submitReply = function(commentText, postId) {
+            if(commentText) {
+                Feed.submitReply({text: commentText, postId: postId})
+                    .then(function(resp) {
+                        console.info(resp);
+                    })
+                    .catch(function(err) {
+                        console.error(err);
+                    });
             }
         };
 
@@ -44,7 +50,6 @@ angular.module('myApp.activity', ['ngRoute'])
                 $scope.feed.push(sample);
             }
         };
-
 
         // Using a timeout to break out of current $apply cycle,
         // simulate click on github feed
