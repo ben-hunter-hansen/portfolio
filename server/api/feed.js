@@ -9,7 +9,11 @@ var express = require('express'),
 router.post('/comments', function(req,res) {
     db.api.comments.update({_id: new ObjectId(req.body.ref)},req.body, function(err,comments) {
         console.info(err);
-        res.send(comments);
+        if(!err) {
+            res.status(200).send(comments);
+        } else {
+            res.sendStatus(500);
+        }
     });
 });
 
