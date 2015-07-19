@@ -10,7 +10,7 @@ router.post('/comments', function(req,res) {
     db.api.comments.update({_id: new ObjectId(req.body.ref)},req.body, function(err,comments) {
         console.info(err);
         if(!err) {
-            res.status(200).send(comments);
+            res.status(200).json(comments);
         } else {
             res.sendStatus(500);
         }
