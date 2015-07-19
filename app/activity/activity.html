@@ -11,10 +11,11 @@
         font-size: 1.5rem !important;
         height: auto;
     }
-
+    
     textarea.reply-box {
         min-height: 10em;
     }
+
 </style>
 <nav class="row">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
@@ -61,22 +62,35 @@
 <div class="row repeated-item" ng-repeat="post in feed">
     <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
         <div class="row">
-            <div class="small-3 medium-2 large-2 columns">
-                <img ng-src="{{ post.photo }}"/>
-            </div>
-            <div class="small-9 medium-10 large-10 columns">
-                <h3>{{ post.title }} <span style="font-size: smaller" class="right subheader">{{ post.hours_ago }} hour(s) ago</span>
-                    <h5 class="subheader">{{ post.body }}</h5></h3>
+            <div class="large-12 columns contents">
+                <div class="row">
+                    <div class="small-12 medium-10 columns">
+                        <h3>
+                            {{ post.title }}
+                            <span class="subheader">
+                                 | <small>{{ post.hours_ago }} hour(s) ago</small>
+                            </span>
+                        </h3>
+                    </div>
+                    <div class="medium-2 large-2 columns show-for-large-up">
+                        <img class="right" style="width: 50px; height: auto" ng-src="{{ post.photo }}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-12 columns">
+                        <h5 class="subheader">{{ post.body }}</h5>
+                    </div>
+                </div>
                 <hr/>
                 <div class="row">
-                    <div class="large-10 medium-10 small-8 columns" ng-if="!getToggledReply(post.id)">
+                    <div class="large-10 medium-10 small-8 columns" ng-if="!getToggledReply(post._id)">
                         <a href="#" class="button tiny left split no-pip">
                             {{ post.points }} Points
                             <span><i class="fa fa-thumbs-o-up"></i></span>
                         </a>
                     </div>
                     <ng-form name="replyForm">
-                        <div class="small-12 columns" ng-if="getToggledReply(post.id)">
+                        <div class="small-12 columns" ng-if="getToggledReply(post._id)">
                             <div class="row">
                                 <div class="small-12 columns"
                                      ng-class="{error: replyForm.input.$invalid && replyForm.input.$dirty}">
@@ -97,22 +111,76 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="small-12 columns" ng-if="getToggledReply(post.id)">
+                        <div class="small-12 columns" ng-if="getToggledReply(post._id)">
                             <div class="row">
-                                <ul class="button-group round large-12 columns text-right">
-                                    <li><a href="#" ng-click="setToggledReply(post.id)" class="small button secondary">Cancel</a>
-                                    </li>
-                                    <li><a href="#"
-                                           ng-class="{disabled: replyForm.input.$invalid}"
-                                           ng-disabled="replyForm.input.$invalid"
-                                           ng-click="submitReply(post.replyModel.text,post.id)"
-                                           class="small button">Submit</a></li>
-                                </ul>
+                                <div class="medium-8 columns">
+                                    <div class="row">
+                                        <div class="small-12 columns">
+                                            <div class="row">
+                                                <div class="small-8 medium-9 columns" ng-init="anon = true">
+                                                    <input ng-if="anon" type="text" placeholder="Identify yourself">
+                                                    <ul ng-if="!anon" class="button-group round even-6" detect-hidden>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-github"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-stack-overflow"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-reddit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-facebook-official"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-twitter"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" class="tiny button secondary">
+                                                                <i class="fa fa-linkedin"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="small-4 medium-3 columns">
+                                                    <a href="#" ng-click="anon = !anon" class="tiny round button" ng-class="{success: anon}">
+                                                        <i ng-class="{'fa fa-users': anon, 'fa fa-user': !anon}"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="medium-4 columns">
+                                    <ul class="button-group even-2">
+                                        <li>
+                                            <a href="#" ng-click="setToggledReply(post._id)" class="tiny button secondary">Cancel</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                               ng-class="{disabled: replyForm.input.$invalid}"
+                                               ng-disabled="replyForm.input.$invalid"
+                                               ng-click="submitReply(post.replyModel.text,post)"
+                                               class="tiny button">Submit
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </ng-form>
-                    <div class="large-2 medium-2 small-4 columns" ng-if="!getToggledReply(post.id)">
-                        <a href="#" ng-click="setToggledReply(post.id)" class="button tiny success right">Reply</a>
+                    <div class="large-2 medium-2 small-4 columns" ng-if="!getToggledReply(post._id)">
+                        <a href="#" ng-click="setToggledReply(post._id)" class="tiny button success right">Reply</a>
                     </div>
                     <div class="large-12 columns">
                         <accordion close-others="oneAtATime">
@@ -125,7 +193,7 @@
                                     <div ng-if="isopen" class="large-2 medium-2 small-3 columns repeated-item-fast"><img
                                             ng-src="{{ comment.photo }}"/></div>
                                     <div ng-if="isopen" class="large-10 medium-10 small-9 columns repeated-item-fast"><p>{{
-                                        comment.body }}</p></div>
+                                        comment.text }}</p></div>
                                 </div>
                             </accordion-group>
                         </accordion>

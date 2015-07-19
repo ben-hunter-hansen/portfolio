@@ -7,7 +7,8 @@ angular.module('myApp.feed.activity-factory', [])
 .factory('Feed',['$http', function($http) {
 
     var _apiUrl = {
-        comments: 'http://localhost:3000/feed/comments'
+        comments: 'http://localhost:3000/feed/comments',
+        posts: 'http://localhost:3000/feed/posts'
     };
 
     var _defaultPhotos = {
@@ -28,13 +29,22 @@ angular.module('myApp.feed.activity-factory', [])
             prefix = String.fromCharCode(65 + Math.floor((Math.random() * 25) + 1));
         return prefix + timeStamp;
     };
+
     return {
+        comment: function(text,type) {
+            return { photo: _defaultPhotos[type.toLowerCase()], text: text };
+        },
+        posts: function(type) {
+            return $http.get(_apiUrl.posts+"?type="+type);
+        },
         placeholder: function(comments,type) {
             var photo = _defaultPhotos[type.toLowerCase()];
 
             var post = {
                 id: _randomId(),
-                title: "@benhansen on " + type,photo: photo,
+                type: type,
+                title: "@benhansen on " + type,
+                photo: photo,
                 body: _postText,
                 points: Math.floor((Math.random() * 100) + 1),
                 hours_ago: Math.floor((Math.random() * 5) + 1),
@@ -42,15 +52,12 @@ angular.module('myApp.feed.activity-factory', [])
             };
 
             for(var i = 0; i < comments; i++) {
-                post.comments.push({
-                    photo: _defaultPhotos[type.toLowerCase()],
-                    body: _commentText
-                });
+                post.comments.push(this.comment(_commentText,type));
             }
             return post;
         },
         submitReply: function(reply) {
-            var payload = { comment: reply.text, ref: reply.postId  };
+            var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()]  };
             return $http.post(_apiUrl.comments, payload);
         }
     }

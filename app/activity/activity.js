@@ -27,28 +27,23 @@ angular.module('myApp.activity', ['ngRoute'])
         $scope.setToggledReply = function(id) {
             _toggledReplyId = _toggledReplyId !== id ? id : 0;
         };
-        $scope.submitReply = function(commentText, postId) {
+        $scope.submitReply = function(commentText, post) {
             if(commentText) {
-                Feed.submitReply({text: commentText, postId: postId})
+                Feed.submitReply({text: commentText, postId: post._id, type: post.type})
                     .then(function(resp) {
-                        console.info(resp);
+                        post.comments.unshift(Feed.comment(commentText,post.type));
+                        post.replyModel.text = "";
+                        $scope.setToggledReply(0);
                     })
-                    .catch(function(err) {
-                        console.error(err);
-                    });
+                    .catch(function(err) {  console.error(err); });
             }
         };
 
         $scope.getFeed = function(option) {
             $scope.focusIndex = option.index;
-            var randPosts = Math.floor((Math.random() * 10) + 1);
-            $scope.feed = [];
-            for(var i = 0; i < randPosts; i++) {
-                var randComments = Math.floor((Math.random() * 5) + 1),
-                    sample = Feed.placeholder(randComments,option.display);
-                sample["replyModel"] = { text: "" };
-                $scope.feed.push(sample);
-            }
+            Feed.posts(option.display).then(function(dat) {
+                $scope.feed = dat.data;
+            });
         };
 
         // Using a timeout to break out of current $apply cycle,

@@ -16,4 +16,18 @@ angular.module('myApp.clickable.clickable-directive', [])
             }
         }
     }
+}])
+
+.directive('detectHidden', ['$timeout',function($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope,elem,attrs) {
+            scope.$watch('anon', function() {
+                elem.css('display','none');
+                $timeout(function(){
+                    elem.css('display','inline');
+                },300);
+            })
+        }
+    }
 }]);
