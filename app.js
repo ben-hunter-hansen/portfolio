@@ -21,6 +21,6 @@ app.listen(port);
 
 console.log('Listening on port ' + port);
 
-database.init('posts');
+//database.init('posts');
 
 exports = module.exports = app;                         

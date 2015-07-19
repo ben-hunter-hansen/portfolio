@@ -7,8 +7,8 @@ angular.module('myApp.feed.activity-factory', [])
 .factory('Feed',['$http', function($http) {
 
     var _apiUrl = {
-        comments: 'http://localhost:3000/feed/comments',
-        posts: 'http://localhost:3000/feed/posts'
+        comments: '/feed/comments',
+        posts: '/feed/posts'
     };
 
     var _defaultPhotos = {
