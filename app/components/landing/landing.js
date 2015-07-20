@@ -4,5 +4,6 @@
 'use strict';
 
 angular.module('myApp.landing', [
-    'myApp.landing.landing-controller'
+    'myApp.landing.landing-controller',
+    'myApp.landing.landing-directives'
 ]);

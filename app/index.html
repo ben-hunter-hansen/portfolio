@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="app-animations.css">
     <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body ng-init="currentView = 'Benjamin Hansen'">
+<body>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -35,7 +35,7 @@
                 <a class="left-off-canvas-toggle menu-icon" href=""><span></span></a>
             </section>
             <section class="middle tab-bar-section">
-                <h1 ng-cloak>{{ currentView }}</h1>
+                <h1 view-title></h1>
             </section>
             <section class="right tab-bar-section hide-for-small-only">
                 <a href="#" class="fa fa-github nav-icon"></a>
@@ -63,7 +63,7 @@
             </ul>
         </aside>
         <section class="main-section">
-            <div ng-view class="fade"></div>
+            <div ng-view style="min-height: 100vh" class="fade"></div>
         </section>
         <a class="exit-off-canvas"></a>
     </div>
@@ -116,7 +116,9 @@
 <!-- Components -->
 <script src="components/landing/landing.js"></script>
 <script src="components/landing/landing-controller.js"></script>
+<script src="components/landing/landing-directives.js"></script>
 <script src="components/projects/projects.js"></script>
+<script src="components/projects/projects-directives.js"></script>
 <script src="components/shared/shared.js"></script>
 <script src="components/shared/shared-directives.js"></script>
 <script src="components/shared/shared-factories.js"></script>

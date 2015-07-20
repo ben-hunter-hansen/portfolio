@@ -6,10 +6,10 @@ angular.module('myApp.landing.landing-controller',[])
 
 .config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/welcome', {
-        templateUrl: 'components/landing/landing.html',
+        templateUrl: 'components/landing/templates/landing.html',
         controller: 'LandingCtrl'
     });
 }])
 .controller('LandingCtrl', [function() {
-    console.info('swag')
+
 }]);
