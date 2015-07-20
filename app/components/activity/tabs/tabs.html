@@ -1,0 +1,43 @@
+<nav class="row">
+    <div class="small-12 medium-10 medium-offset-1 large-8 large-offset-2 columns">
+        <ul class="button-group radius even-4">
+            <li>
+                <button id="gitFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: ctrl.gitHover, focus: ctrl.focused === ctrl.tabs.GitHub.index }"
+                        ng-mouseenter="ctrl.gitHover = true"
+                        ng-mouseleave="ctrl.gitHover = false"
+                        ng-click="ctrl.requestFeed(ctrl.tabs.GitHub)"
+                        trigger-click> {{ ctrl.tabs.GitHub.label }}
+                </button>
+            </li>
+            <li>
+                <button id="fbFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: fbHover, focus: ctrl.focused === ctrl.tabs.Facebook.index }"
+                        ng-click="ctrl.requestFeed(ctrl.tabs.Facebook)"
+                        ng-mouseenter="fbHover = true"
+                        ng-mouseleave="fbHover = false"> {{ ctrl.tabs.Facebook.label }}
+                </button>
+            </li>
+            <li>
+                <button id="twitterFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: twHover, focus: ctrl.focused === ctrl.tabs.Twitter.index }"
+                        ng-click="ctrl.requestFeed(ctrl.tabs.Twitter)"
+                        ng-mouseenter="twHover = true"
+                        ng-mouseleave="twHover = false"> {{ ctrl.tabs.Twitter.label }}
+                </button>
+            </li>
+            <li>
+                <button id="linkedinFeed"
+                        class="button feed-btn"
+                        ng-class="{hover: linkedHover, focus: ctrl.focused === ctrl.tabs.LinkedIn.index }"
+                        ng-click="ctrl.requestFeed(ctrl.tabs.LinkedIn)"
+                        ng-mouseenter="linkedHover = true"
+                        ng-mouseleave="linkedHover = false"> {{ ctrl.tabs.LinkedIn.label }}
+                </button>
+            </li>
+        </ul>
+    </div>
+</nav>
