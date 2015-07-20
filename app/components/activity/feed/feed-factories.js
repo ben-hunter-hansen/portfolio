@@ -2,7 +2,7 @@
  * Created by ben on 6/28/15.
  */
 
-angular.module('myApp.feed.activity-factory', [])
+angular.module('myApp.activity.feed.feed-factories', [])
 
 .factory('Feed',['$http', function($http) {
 
