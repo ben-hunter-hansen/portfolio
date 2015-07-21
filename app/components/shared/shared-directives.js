@@ -34,4 +34,26 @@ angular.module('myApp.shared.shared-directives', [])
             });
         }
     }
+}])
+
+
+.directive('showLoading', ['$timeout',function($timeout) {
+    return {
+        restrict: 'EA',
+        templateUrl: 'components/shared/templates/show-loading.html',
+        link: function(scope,elem,attrs) {
+            scope.cap = attrs.cap;
+            scope.current = attrs.current;
+            scope.center = attrs.center;
+            scope.width = attrs.width ? attrs.width : '100%';
+            if(attrs.vheight && parseInt(attrs.vheight) >= 0 && parseInt(attrs.vheight) <= 100) {
+                scope.vheight = attrs.vheight + 'vh';
+            } else {
+                scope.vheight = 'auto';
+            }
+            scope.percentage = function(step,max) {
+                return Math.floor((step / max) * 100);
+            };
+        }
+    }
 }]);

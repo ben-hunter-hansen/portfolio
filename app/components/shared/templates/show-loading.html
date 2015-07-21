@@ -1,0 +1,25 @@
+<style>
+    .progress .meter {
+        -webkit-transition: width 1s ease-out;
+        transition: width 1s ease-out;
+    }
+    div.max-vh {
+        height: 100vh;
+    }
+    div.center-parent {
+        position: relative;
+    }
+    div.center-child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<div ng-style="{'height': vheight}" ng-class="{'center-parent': center}">
+    <div ng-style="{ 'width': width }" ng-class="{'center-child': center}" class="text-center">
+        <progressbar  max="cap" value="current">
+        </progressbar>
+        <small class="subheader">Loading, please wait {{ percentage(current,cap) }} %</small>
+    </div>
+</div>

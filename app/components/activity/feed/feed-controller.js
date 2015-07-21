@@ -5,11 +5,19 @@
 
 angular.module('myApp.activity.feed.feed-controller',[])
 
-.controller('FeedCtrl', ['StateSignal','Feed','$timeout',function(StateSignal,Feed, $timeout) {
+.controller('FeedCtrl', ['StateSignal','Feed','$interval',function(StateSignal,Feed, $interval) {
     var scope = this;
+    scope.feed = [];
+    scope.stop;
     scope.getFeed = function(feedType) {
+        var step = function(posts) {
+            return function() {
+                scope.feed.push(posts.pop());
+            }
+        };
         Feed.posts(feedType).then(function(dat) {
-            scope.feed = dat.data;
+            var posts = dat.data;
+            scope.stop = $interval(step(posts),100,posts.length);
         });
     };
 
@@ -31,8 +39,14 @@ angular.module('myApp.activity.feed.feed-controller',[])
                 .catch(function(err) {  console.error(err); });
         }
     };
-
+    scope.isLoading = function() {
+        return loadStatus;
+    };
     StateSignal.listen('tabbed', function(message) {
+        if(angular.isDefined(scope.stop)) {
+            scope.feed = [];
+            $interval.cancel(stop);
+        }
         scope.getFeed(message.label);
     });
 }]);
