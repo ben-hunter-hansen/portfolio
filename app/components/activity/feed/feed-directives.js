@@ -20,8 +20,12 @@ angular.module('myApp.activity.feed.feed-directives', [])
             scope.setToggledReply = function(id) {
                 _toggledReplyId = _toggledReplyId !== id ? id : 0;
             };
-            scope.parseDate = function(mills) {
-                return new Date(mills).toString();
+            scope.parseDate = function(millis) {
+                var d = new Date(millis),
+                    dateStr = d.toLocaleDateString(),
+                    timeStr = d.toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+
+                return dateStr + " @ " + timeStr;
             };
         }
     }
