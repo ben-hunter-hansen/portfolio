@@ -13,9 +13,5 @@ angular.module('myApp.projects', [
 }])
 
 .controller('ProjectsCtrl', ['$interval','$scope', function($interval,$scope) {
-    $scope.current = "0";
-    $interval(function() {
-        var nVal = parseInt($scope.current) + 1;
-        $scope.current = nVal.toString();
-    },1000);
+
 }]);

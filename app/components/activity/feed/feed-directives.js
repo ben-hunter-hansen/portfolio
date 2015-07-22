@@ -13,16 +13,82 @@ angular.module('myApp.activity.feed.feed-directives', [])
         controller: 'FeedCtrl',
         controllerAs: 'ctrl',
         link: function(scope,elem,attrs) {
-            //scope.$apply();
+            var _toggledReplyId = 0;
+            scope.getToggledReply = function(id) {
+                return id === _toggledReplyId;
+            };
+            scope.setToggledReply = function(id) {
+                _toggledReplyId = _toggledReplyId !== id ? id : 0;
+            };
+            scope.parseDate = function(mills) {
+                return new Date(mills).toString();
+            };
         }
     }
 }])
 
-.directive('checkUpdate', ['Feed',function(Feed) {
+.directive('postInfo', [function() {
     return {
-        restrict: 'A',
+        restrict: 'EA',
+        templateUrl: 'components/activity/feed/templates/post-info.html',
+        scope: {
+            clickEvent: '&onReplyClicked',
+            post: '=postDetails'
+        },
         link: function(scope,elem,attrs) {
+            scope.shouldDisplay = true;
+            scope.click = function() {
+                scope.clickEvent();
+                scope.shouldDisplay = false;
+            };
+        }
+    }
+}])
+.directive('replyForm',['Feed',function(Feed) {
+    return {
+        restrict: 'EA',
+        templateUrl: 'components/activity/feed/templates/reply-form.html',
+        scope: {
+            show: '=show',
+            closeEvent: '&onClose',
+            post: '=replyTo'
+        },
+        link: function(scope,elems,attrs) {
+            scope.formData = { comment: ""};
+            scope.cancel = function() {
+                scope.shouldDisplay = false;
+                scope.closeEvent();
+            };
+            scope.submit = function(data) {
+                Feed.submitReply({text: scope.formData.comment,
+                    postId: scope.post._id, type: scope.post.type})
+                    .then(function(resp) {
+                        scope.post.comments.unshift(Feed.comment(scope.formData.comment,scope.post.type));
+                        scope.formData.comment = "";
+                        scope.cancel();
+                    }).catch(function(err) {  console.error(err); });
+            };
+            scope.$watch('show', function(newVal) {
+                scope.shouldDisplay = newVal;
+            })
+        }
+    }
+}])
 
+.directive('comment', [function() {
+    return {
+        restrict: 'EA',
+        templateUrl: 'components/activity/feed/templates/comment.html',
+        scope: {
+            comment: '=commentData',
+            isOpen: '=isOpen'
+        },
+        link: function(scope,elem,attrs) {
+            scope.shouldDisplay = false;
+            scope.$watch('isOpen', function(newVal) {
+                console.info(newVal);
+                scope.shouldDisplay = newVal;
+            });
         }
     }
 }])

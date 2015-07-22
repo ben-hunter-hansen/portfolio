@@ -1,0 +1,90 @@
+<ng-form name="replyForm" ng-if="shouldDisplay">
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="small-12 columns"
+                 ng-class="{error: replyForm.input.$invalid && replyForm.input.$dirty}">
+                <label style="font-size: large"> Leave a comment.
+                                    <textarea ng-model="formData.comment"
+                                              name="input"
+                                              ng-required="true"
+                                              placeholder="Speak your mind"
+                                              class="reply-box"
+                                              ng-maxlength="200">
+                                    </textarea>
+                    <small class="error"
+                           ng-show="replyForm.input.$invalid && replyForm.input.$dirty">
+                        {{ replyForm.input.$error.maxlength ? "Replies need to be under 200 chars."
+                        : "This is a required field" }}
+                    </small>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="small-12 columns">
+        <div class="row">
+            <div class="medium-8 columns">
+                <div class="row">
+                    <div class="small-12 columns">
+                        <div class="row">
+                            <div class="small-8 medium-9 columns" ng-init="anon = true">
+                                <input ng-if="anon" type="text" placeholder="Identify yourself">
+                                <ul ng-if="!anon" class="button-group round even-6" toggle-anon>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-github"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-stack-overflow"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-reddit"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-facebook-official"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="tiny button secondary">
+                                            <i class="fa fa-linkedin"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="small-4 medium-3 columns">
+                                <a href="#" ng-click="anon = !anon" class="tiny round button" ng-class="{success: anon}">
+                                    <i ng-class="{'fa fa-users': anon, 'fa fa-user': !anon}"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="medium-4 columns">
+                <ul class="button-group even-2">
+                    <li>
+                        <a href="#" ng-click="cancel()" class="tiny button secondary">Cancel</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                           ng-class="{disabled: replyForm.input.$invalid}"
+                           ng-disabled="replyForm.input.$invalid"
+                           ng-click="submit(formData)"
+                           class="tiny button">Submit
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-form>

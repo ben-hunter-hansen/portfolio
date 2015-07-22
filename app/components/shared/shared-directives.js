@@ -37,10 +37,13 @@ angular.module('myApp.shared.shared-directives', [])
 }])
 
 
-.directive('showLoading', ['$timeout',function($timeout) {
+.directive('loadingBar', ['$timeout',function($timeout) {
     return {
         restrict: 'EA',
         templateUrl: 'components/shared/templates/show-loading.html',
+        scope: {
+            current: '@current'
+        },
         link: function(scope,elem,attrs) {
             scope.cap = attrs.cap;
             scope.current = attrs.current;
@@ -51,9 +54,33 @@ angular.module('myApp.shared.shared-directives', [])
             } else {
                 scope.vheight = 'auto';
             }
+            scope.$watch('current', function(oldVal,newVal){
+                console.info(newVal);
+            });
             scope.percentage = function(step,max) {
                 return Math.floor((step / max) * 100);
             };
         }
+    }
+}])
+
+.directive('bgImgSwap', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope,elem,attrs) {
+            elem.css({
+                'background-image': 'url(' + attrs.bgImg + ')',
+                'background-repeat': 'no-repeat',
+                'background-attachment': 'fixed',
+                'background-position': '50% 100%',
+            });
+        }
+    }
+}])
+.directive('loadingIcon',[function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'components/shared/templates/loading-icon.html',
+        link: function(scope,elem,attrs) { }
     }
 }]);
