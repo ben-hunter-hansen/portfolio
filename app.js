@@ -1,8 +1,9 @@
 var feedApi = require('./server/api/feed');
-var database = require('./server/db');
+var database = require('./server/database/db');
 var express = require('express');
 
 var compression = require('compression');
+var sanitizer = require('express-sanitizer');
 var bodyParser = require('body-parser');
 var app = express();
 
@@ -10,6 +11,7 @@ var port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(sanitizer());
 
 app.use(compression());
 app.use(express.static(__dirname + '/app'));

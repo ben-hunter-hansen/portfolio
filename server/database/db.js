@@ -6,20 +6,23 @@ var MongoClient = require('mongodb').MongoClient;
 
 var _addDocument = function(col, document, done) {
     return function(err,db) {
+        if(err) return done(err,null);
         var collection = db.collection(col);
         collection.insert(document, done);
     }
 };
 
-var _updateDocument = function(col, predict, data, done) {
+var _updateDocument = function(col,set,predict, data, done) {
     return function(err,db) {
+        if(err) return done(err,null);
         var collection = db.collection(col);
-        collection.update(predict, {$addToSet: {comments: data}}, done);
+        collection.update(predict, {$addToSet: {set: data}}, done);
     }
 };
 
 var _getDocuments = function(col, predict, done) {
     return function(err,db) {
+        if(err) return done(err,null);
         var collection = db.collection(col).find(predict);
         collection.toArray(done);
     }
@@ -37,9 +40,9 @@ var all = function(collection) {
     }
 };
 
-var update = function(collection) {
+var update = function(collection,set) {
     return function(predict, data, done) {
-        MongoClient.connect(dbUrl, _updateDocument(collection,predict,data,done));
+        MongoClient.connect(dbUrl, _updateDocument(collection,set,predict,data,done));
     }
 };
 
@@ -84,7 +87,7 @@ module.exports = {
             all: all("posts")
         },
         comments: {
-            update: update("posts")
+            update: update("posts","comments")
         }
     },
     init: createPlaceholders

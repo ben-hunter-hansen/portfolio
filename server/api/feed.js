@@ -2,30 +2,25 @@
  * Created by ben on 7/17/15.
  */
 var express = require('express'),
-    db = require('../db'),
+    db = require('../database/db'),
+    models = require('../models/models'),
     ObjectId = require('mongodb').ObjectID,
+    validaton = require('../middleware/validation'),
     router = express.Router();
 
-router.post('/comments', function(req,res) {
-    db.api.comments.update({_id: new ObjectId(req.body.ref)},req.body, function(err,comments) {
-        console.info(err);
-        if(!err) {
-            res.status(200).json(comments);
-        } else {
-            res.sendStatus(500);
-        }
-    });
+router.post('/comments', validaton.commentValidator, models.comment ,function(req,res) {
+    res.status(200).json(req.body);
 });
 
 router.post('/posts', function(req,res) {
     db.api.posts.insert(req.body, function(err, doc) {
-        !err ? res.send(doc) : res.status(500).send('Post insert failed');
+        !err ? res.send(doc) : res.status(500).send("Something went horribly wrong.");
     });
 });
 
 router.get('/posts', function(req,res) {
    db.api.posts.all({type: req.query.type}, function(err,posts) {
-       res.send(posts);
+       !err ? res.send(posts) : res.status(500).send("Something went horribly wrong.");
    });
 });
 
