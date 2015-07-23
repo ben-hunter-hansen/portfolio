@@ -5,7 +5,7 @@
 
 angular.module('myApp.activity', [
     'myApp.activity.tabs',
-    'myApp.activity.feed'
+    'myApp.activity.feed',
 ])
 
 .config(['$routeProvider', function ($routeProvider) {

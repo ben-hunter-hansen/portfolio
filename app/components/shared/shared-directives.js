@@ -64,19 +64,6 @@ angular.module('myApp.shared.shared-directives', [])
     }
 }])
 
-.directive('bgImgSwap', [function() {
-    return {
-        restrict: 'A',
-        link: function(scope,elem,attrs) {
-            elem.css({
-                'background-image': 'url(' + attrs.bgImg + ')',
-                'background-repeat': 'no-repeat',
-                'background-attachment': 'fixed',
-                'background-position': '50% 100%',
-            });
-        }
-    }
-}])
 .directive('loadingIcon',[function() {
     return {
         restrict: 'E',

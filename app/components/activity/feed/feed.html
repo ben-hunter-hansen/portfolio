@@ -27,11 +27,12 @@
                 <hr/>
                 <div class="row">
                     <post-info on-reply-clicked="setToggledReply(post._id)"
+                               on-reply-closed="getToggledReply(post._id)"
                                post-details="post">
                     </post-info>
 
-                    <reply-form show="getToggledReply(post._id)"
-                                reply-to="post"
+                    <reply-form reply-to="post"
+                                show="getToggledReply(post._id)"
                                 on-close="setToggledReply(0)">
                     </reply-form>
 

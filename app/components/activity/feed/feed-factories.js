@@ -31,8 +31,8 @@ angular.module('myApp.activity.feed.feed-factories', [])
     };
 
     return {
-        comment: function(text,type) {
-            return { photo: _defaultPhotos[type.toLowerCase()], text: text };
+        comment: function(data,type) {
+            return { photo: _defaultPhotos[type.toLowerCase()], text: data.comment, author: data.author };
         },
         posts: function(type) {
             return $http.get(_apiUrl.posts+"?type="+type);
@@ -57,7 +57,7 @@ angular.module('myApp.activity.feed.feed-factories', [])
             return post;
         },
         submitReply: function(reply) {
-            var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()]  };
+            var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()], author: reply.author  };
             return $http.post(_apiUrl.comments, payload);
         }
     }

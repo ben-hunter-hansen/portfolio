@@ -1,11 +1,21 @@
-<div ng-if="shouldDisplay">
-    <div class="large-10 medium-10 small-8 columns">
+<style>
+    a.focused {
+        color: #f04124;
+    }
+    a.inactive {
+        color: #43AC6A;
+    }
+</style>
+<div>
+    <div class="large-9 medium-9 small-8 columns">
         <a href="#" class="button tiny left split no-pip">
             {{ post.points }} Points
             <span><i class="fa fa-thumbs-o-up"></i></span>
         </a>
     </div>
-    <div class="large-2 medium-2 small-4 columns">
-        <a href="#" ng-click="clickEvent()" class="tiny button success right">Reply</a>
+    <div class="large-3 medium-3 small-4 columns">
+        <a href="#" class="right" ng-class="{focused: closeEvent(), inactive: !closeEvent()}" ng-click="click()">
+            <i ng-class="{'fa fa-comment fa-2x': !closeEvent(), 'fa fa-times-circle fa-2x': closeEvent()}"></i>
+        </a>
     </div>
 </div>

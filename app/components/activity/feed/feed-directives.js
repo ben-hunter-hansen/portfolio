@@ -37,14 +37,14 @@ angular.module('myApp.activity.feed.feed-directives', [])
         templateUrl: 'components/activity/feed/templates/post-info.html',
         scope: {
             clickEvent: '&onReplyClicked',
+            closeEvent: '&onReplyClosed',
             post: '=postDetails'
         },
         link: function(scope,elem,attrs) {
-            scope.shouldDisplay = true;
+            scope.vis = false;
             scope.click = function() {
-                scope.clickEvent();
-                scope.shouldDisplay = false;
-            };
+                scope.clickEvent()
+            }
         }
     }
 }])
@@ -58,16 +58,16 @@ angular.module('myApp.activity.feed.feed-directives', [])
             post: '=replyTo'
         },
         link: function(scope,elems,attrs) {
-            scope.formData = { comment: ""};
+            scope.formData = { comment: "", author: ""};
             scope.cancel = function() {
                 scope.shouldDisplay = false;
                 scope.closeEvent();
             };
             scope.submit = function(data) {
                 Feed.submitReply({text: scope.formData.comment,
-                    postId: scope.post._id, type: scope.post.type})
+                    postId: scope.post._id, type: scope.post.type, author: scope.formData.author})
                     .then(function(resp) {
-                        scope.post.comments.unshift(Feed.comment(scope.formData.comment,scope.post.type));
+                        scope.post.comments.unshift(Feed.comment(scope.formData,scope.post.type));
                         scope.formData.comment = "";
                         scope.cancel();
                     }).catch(function(err) {  console.error(err); });
@@ -90,7 +90,6 @@ angular.module('myApp.activity.feed.feed-directives', [])
         link: function(scope,elem,attrs) {
             scope.shouldDisplay = false;
             scope.$watch('isOpen', function(newVal) {
-                console.info(newVal);
                 scope.shouldDisplay = newVal;
             });
         }

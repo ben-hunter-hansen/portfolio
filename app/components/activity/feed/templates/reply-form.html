@@ -4,13 +4,13 @@
             <div class="small-12 columns"
                  ng-class="{error: replyForm.input.$invalid && replyForm.input.$dirty}">
                 <label style="font-size: large"> Leave a comment.
-                                    <textarea ng-model="formData.comment"
-                                              name="input"
-                                              ng-required="true"
-                                              placeholder="Speak your mind"
-                                              class="reply-box"
-                                              ng-maxlength="200">
-                                    </textarea>
+                    <textarea ng-model="formData.comment"
+                              name="input"
+                              ng-required="true"
+                              placeholder="Speak your mind"
+                              class="reply-box"
+                              ng-maxlength="200">
+                    </textarea>
                     <small class="error"
                            ng-show="replyForm.input.$invalid && replyForm.input.$dirty">
                         {{ replyForm.input.$error.maxlength ? "Replies need to be under 200 chars."
@@ -22,12 +22,24 @@
     </div>
     <div class="small-12 columns">
         <div class="row">
-            <div class="medium-8 columns">
+            <div class="small-12 medium-10 large-10 columns">
                 <div class="row">
                     <div class="small-12 columns">
                         <div class="row">
-                            <div class="small-8 medium-9 columns" ng-init="anon = true">
-                                <input ng-if="anon" type="text" placeholder="Identify yourself">
+                            <div class="small-9 medium-10 columns" ng-init="anon = true">
+                                <div ng-if="anon" ng-class="{error: replyForm.author.$invalid && replyForm.author.$dirty}">
+                                    <input ng-model="formData.author"
+                                           ng-required="true"
+                                           ng-maxlength="20"
+                                           name="author"
+                                           type="text"
+                                           placeholder="Identify yourself">
+                                    <small class="error"
+                                           ng-show="replyForm.author.$invalid && replyForm.author.$dirty">
+                                        {{ replyForm.author.$error.maxlength ? "Must be under 20 chars"
+                                        : "This is required" }}
+                                    </small>
+                                </div>
                                 <ul ng-if="!anon" class="button-group round even-6" toggle-anon>
                                     <li>
                                         <a href="#" class="tiny button secondary">
@@ -61,8 +73,8 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="small-4 medium-3 columns">
-                                <a href="#" ng-click="anon = !anon" class="tiny round button" ng-class="{success: anon}">
+                            <div class="small-3 medium-2 columns">
+                                <a href="#" ng-click="anon = !anon" class="tiny round button round right" ng-class="{success: anon}">
                                     <i ng-class="{'fa fa-users': anon, 'fa fa-user': !anon}"></i>
                                 </a>
                             </div>
@@ -70,20 +82,18 @@
                     </div>
                 </div>
             </div>
-            <div class="medium-4 columns">
-                <ul class="button-group even-2">
-                    <li>
-                        <a href="#" ng-click="cancel()" class="tiny button secondary">Cancel</a>
-                    </li>
-                    <li>
+            <div class="small-12 medium-2 large-2 columns">
+                <div class="row">
+                    <div class="small-12 columns">
                         <a href="#"
-                           ng-class="{disabled: replyForm.input.$invalid}"
-                           ng-disabled="replyForm.input.$invalid"
+                           ng-class="{secondary: replyForm.input.$invalid || replyForm.author.$invalid}"
+                           ng-disabled="replyForm.input.$invalid || replyForm.author.$invalid"
                            ng-click="submit(formData)"
-                           class="tiny button">Submit
+                           class="tiny button expand">Submit
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
