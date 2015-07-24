@@ -1,27 +1,35 @@
 /**
  * Created by ben on 7/17/15.
  */
+
+// Dependencies
 var express = require('express'),
     db = require('../database/db'),
-    models = require('../models/models'),
-    ObjectId = require('mongodb').ObjectID,
     validaton = require('../middleware/validation'),
     router = express.Router();
 
-router.post('/comments', validaton.commentValidator, models.comment ,function(req,res) {
-    res.status(200).json(req.body);
+// Models
+var Comment = require('../models/comment'),
+    Post = require('../models/post');
+
+router.post('/comments', validaton.comment, function(req,res) {
+    var comment = new Comment(req.body);
+    comment.add().then(function(result) {
+        res.status(result.status).send(result.data);
+    });
 });
 
 router.post('/posts', function(req,res) {
-    db.api.posts.insert(req.body, function(err, doc) {
-        !err ? res.send(doc) : res.status(500).send("Something went horribly wrong.");
+    var post = new Post(req.body);
+    post.add().then(function(result) {
+        res.send(result.status).send(result.data);
     });
 });
 
 router.get('/posts', function(req,res) {
-   db.api.posts.all({type: req.query.type}, function(err,posts) {
-       !err ? res.send(posts) : res.status(500).send("Something went horribly wrong.");
-   });
+   Post.findByType(req.query.type).then(function(result) {
+       res.status(result.status).send(result.data);
+   })
 });
 
 module.exports = router;

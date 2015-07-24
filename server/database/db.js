@@ -12,11 +12,13 @@ var _addDocument = function(col, document, done) {
     }
 };
 
-var _updateDocument = function(col,set,predict, data, done) {
+var _updateDocument = function(col,field,predict, data, done) {
     return function(err,db) {
         if(err) return done(err,null);
         var collection = db.collection(col);
-        collection.update(predict, {$addToSet: {set: data}}, done);
+        var fieldObj = {};
+        fieldObj[field] = data; 
+        collection.update(predict, {$addToSet: fieldObj}, done);
     }
 };
 
@@ -40,9 +42,9 @@ var all = function(collection) {
     }
 };
 
-var update = function(collection,set) {
+var update = function(collection,field) {
     return function(predict, data, done) {
-        MongoClient.connect(dbUrl, _updateDocument(collection,set,predict,data,done));
+        MongoClient.connect(dbUrl, _updateDocument(collection,field,predict,data,done));
     }
 };
 

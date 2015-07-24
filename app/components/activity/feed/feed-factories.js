@@ -18,43 +18,12 @@ angular.module('myApp.activity.feed.feed-factories', [])
         twitter: "assets/img/twitter_icon.png"
     };
 
-    var _commentText = "Bacon ipsum dolor sit amet nulla ham qui sint exercitation " +
-        "eiusmod commodo, chuck duis velit. Aute in reprehenderit";
-
-    var _postText = "Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo," +
-        "chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.";
-
-    var _randomId = function() {
-        var timeStamp = Date.now(),
-            prefix = String.fromCharCode(65 + Math.floor((Math.random() * 25) + 1));
-        return prefix + timeStamp;
-    };
-
     return {
         comment: function(data,type) {
             return { photo: _defaultPhotos[type.toLowerCase()], text: data.comment, author: data.author };
         },
         posts: function(type) {
             return $http.get(_apiUrl.posts+"?type="+type);
-        },
-        placeholder: function(comments,type) {
-            var photo = _defaultPhotos[type.toLowerCase()];
-
-            var post = {
-                id: _randomId(),
-                type: type,
-                title: "@benhansen on " + type,
-                photo: photo,
-                body: _postText,
-                points: Math.floor((Math.random() * 100) + 1),
-                hours_ago: Math.floor((Math.random() * 5) + 1),
-                comments: []
-            };
-
-            for(var i = 0; i < comments; i++) {
-                post.comments.push(this.comment(_commentText,type));
-            }
-            return post;
         },
         submitReply: function(reply) {
             var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()], author: reply.author  };

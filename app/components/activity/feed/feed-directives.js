@@ -67,7 +67,7 @@ angular.module('myApp.activity.feed.feed-directives', [])
                 Feed.submitReply({text: scope.formData.comment,
                     postId: scope.post._id, type: scope.post.type, author: scope.formData.author})
                     .then(function(resp) {
-                        scope.post.comments.unshift(Feed.comment(scope.formData,scope.post.type));
+                        scope.post.comments.push(resp.data);
                         scope.formData.comment = "";
                         scope.cancel();
                     }).catch(function(err) {  console.error(err); });
