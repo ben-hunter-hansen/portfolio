@@ -29,7 +29,9 @@
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start": "node app.js",
+    "start-prod": "NODE_ENV=production PORT=80 node app.js",
+    "start-dev": "node app.js",
+    "init-db": "node server/database/init.js",
     "pretest": "npm install",
     "test": "karma start karma.conf.js",
     "test-single-run": "karma start karma.conf.js  --single-run",

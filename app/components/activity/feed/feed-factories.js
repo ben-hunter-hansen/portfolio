@@ -6,9 +6,14 @@ angular.module('myApp.activity.feed.feed-factories', [])
 
 .factory('Feed',['$http', function($http) {
 
-    var _apiUrl = {
-        comments: '/feed/comments',
-        posts: '/feed/posts'
+    var _api = {
+        comments: {
+            add: "/feed/comments/new"
+        },
+        posts: {
+            byType: "/feed/posts?type=",
+            vote: "/feed/posts/vote"
+        }
     };
 
     var _defaultPhotos = {
@@ -23,11 +28,14 @@ angular.module('myApp.activity.feed.feed-factories', [])
             return { photo: _defaultPhotos[type.toLowerCase()], text: data.comment, author: data.author };
         },
         posts: function(type) {
-            return $http.get(_apiUrl.posts+"?type="+type);
+            return $http.get(_api.posts.byType+type);
+        },
+        vote: function(data) {
+            return $http.put(_api.posts.vote, data);
         },
         submitReply: function(reply) {
             var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()], author: reply.author  };
-            return $http.post(_apiUrl.comments, payload);
+            return $http.post(_api.comments.add, payload);
         }
     }
 }]);

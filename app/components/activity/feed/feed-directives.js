@@ -32,7 +32,7 @@ angular.module('myApp.activity.feed.feed-directives', [])
     }
 }])
 
-.directive('postInfo', ['StateSignal',function(StateSignal) {
+.directive('postInfo', ['StateSignal','Feed',function(StateSignal,Feed) {
     return {
         restrict: 'EA',
         templateUrl: 'components/activity/feed/templates/post-info.html',
@@ -56,6 +56,12 @@ angular.module('myApp.activity.feed.feed-directives', [])
                     scope.clear();
                 }
             });
+
+            scope.pointsClick = function() {
+                Feed.vote(scope.post).then(function(resp) {
+                    scope.post.points = resp.data.points;
+                });
+            };
 
             scope.replyClick = function() {
                 StateSignal.transmit('feed.posts.toggle', {action: 'reply',id: scope.post._id});

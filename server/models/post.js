@@ -3,23 +3,17 @@
  */
 var express = require('express'),
     db = require('../database/db'),
-    Result = require('./result'),
-    ObjectId = require('mongodb').ObjectID;
+    Result = require('./result');
 
+var ObjectId = require('mongodb').ObjectID;
 
 var Post = function(data) {
-    this._id = data._id;
-    this._title = data.title;
-    this._body = data.body;
-    this._photo = data.photo;
-    this._points = data.points;
-    this._type = data.type;
-    this._posted_on = data.posted_on;
-    this._comments = data.comments;
+    this._postObject = data;
 };
 
 // Static/final members
-Post.FIELDS = ["_id","title","body","photo","points","type","posted_on","comments"];
+Post.Fields = ["_id","title","body","photo","points","type","posted_on","comments"];
+
 Post.findByType = function(postType) {
     return new Promise(function(resolve) {
         db.api.posts.all({type: postType}, function(err,posts) {
@@ -30,25 +24,50 @@ Post.findByType = function(postType) {
 
 // Instance members
 Post.prototype.json = function() {
-    var obj = {
-        title: this._title,
-        body: this._body,
-        photo: this._photo,
-        points: this._points,
-        type: this._type,
-        posted_on: this._posted_on,
-        comments: this._comments
-    };
-    this._id ? obj["_id"] = this._id : 0;
+    var obj = this._postObject;
+    obj.hasOwnProperty("_id") ? obj["_id"] = this._id : 0;
     return obj;
 };
 
+Post.prototype.get = function(k) {
+    if(this._postObject.hasOwnProperty(k)) {
+        return this._postObject[k];
+    } else throw new TypeError("Invalid argument k", "post.js", 36);
+};
+
+Post.prototype.id = function() {
+    return new ObjectId(this._postObject["_id"]);
+};
+
 Post.prototype.add = function() {
+    var that = this;
     return new Promise(function(resolve) {
-        db.api.posts.insert(this.json(), function(err, doc) {
+        db.api.posts.insert(that.json(), function(err, doc) {
             resolve(new Result(err,doc));
         });
-    })
+    });
+};
+
+Post.prototype.vote = function() {
+    var that = this;
+    return new Promise(function(resolve) {
+        var oneUp = parseInt(that.get("points")) + 1;
+        that.update({
+            points: oneUp
+        }).then(function(result) {
+            resolve(result);
+        });
+    });
+};
+
+Post.prototype.update = function(data) {
+    var that = this;
+    return new Promise(function(resolve) {
+        var predict = { _id: that.id() };
+        db.api.posts.update(predict,data,function(err) {
+            resolve(new Result(err,data));
+        });
+    });
 };
 
 module.exports = Post;
