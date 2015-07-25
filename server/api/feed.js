@@ -15,20 +15,20 @@ var Comment = require('../models/comment'),
 router.post('/comments', validaton.comment, function(req,res) {
     var comment = new Comment(req.body);
     comment.add().then(function(result) {
-        res.status(result.status).send(result.data);
+        res.status(result.status()).send(result.data());
     });
 });
 
 router.post('/posts', function(req,res) {
     var post = new Post(req.body);
     post.add().then(function(result) {
-        res.send(result.status).send(result.data);
+        res.send(result.status()).send(result.data());
     });
 });
 
 router.get('/posts', function(req,res) {
    Post.findByType(req.query.type).then(function(result) {
-       res.status(result.status).send(result.data);
+       res.status(result.status()).send(result.data());
    })
 });
 

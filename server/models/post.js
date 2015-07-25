@@ -3,6 +3,7 @@
  */
 var express = require('express'),
     db = require('../database/db'),
+    Result = require('./result'),
     ObjectId = require('mongodb').ObjectID;
 
 
@@ -22,10 +23,7 @@ Post.FIELDS = ["_id","title","body","photo","points","type","posted_on","comment
 Post.findByType = function(postType) {
     return new Promise(function(resolve) {
         db.api.posts.all({type: postType}, function(err,posts) {
-            resolve({
-                status: err ? 500 : 200,
-                data: err ? { error: "Something went horribly wrong." } : posts
-            });
+            resolve(new Result(err,posts));
         });
     });
 };
@@ -48,10 +46,7 @@ Post.prototype.json = function() {
 Post.prototype.add = function() {
     return new Promise(function(resolve) {
         db.api.posts.insert(this.json(), function(err, doc) {
-            resolve({
-                status: err ? 500 : 200,
-                data: err ? { error: "Something went horribly wrong." } : doc
-            });
+            resolve(new Result(err,doc));
         });
     })
 };

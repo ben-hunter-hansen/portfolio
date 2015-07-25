@@ -3,6 +3,7 @@
  */
 var express = require('express'),
     db = require('../database/db'),
+    Result = require('./result'),
     ObjectId = require('mongodb').ObjectID;
 
 
@@ -14,7 +15,7 @@ var Comment = function(data) {
 };
 
 // Static/final members
-Comment.FIELDS = ["author","photo","ref","text"];
+Comment.Fields = ["author","photo","ref","text"];
 
 // Instance members
 Comment.prototype.json = function() {
@@ -31,10 +32,7 @@ Comment.prototype.add = function() {
         document = this.json();
     return new Promise(function(resolve) {
         db.api.comments.update(predict, document, function(err) {
-            resolve({
-                status: err ? 500 : 200,
-                data: err ? { error: "Something went horribly wrong." } : document
-            });
+            resolve(new Result(err,document));
         });
     });
 };
