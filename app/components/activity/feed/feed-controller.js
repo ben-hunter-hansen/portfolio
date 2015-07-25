@@ -17,12 +17,16 @@ angular.module('myApp.activity.feed.feed-controller',[])
             }
         };
         Feed.posts(feedType).then(function(dat) {
+            if(angular.isDefined(scope.stopFeed)) {
+                $interval.cancel(scope.stopFeed);
+            }
             var posts = dat.data;
             scope.stopFeed = $interval(step(posts),100,posts.length);
             scope.loadComplete = true;
         });
     };
-    //scope.getFeed('GitHub');
+
+    scope.getFeed('GitHub');
     StateSignal.listen('tabbed', function(message) {
         if(angular.isDefined(scope.stopFeed)) {
             scope.feed = [];
