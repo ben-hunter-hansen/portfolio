@@ -13,12 +13,13 @@ angular.module('myApp.activity.feed.feed-directives', [])
         controller: 'FeedCtrl',
         controllerAs: 'ctrl',
         link: function(scope,elem,attrs) {
-            var _toggledReplyId = 0;
-            scope.getToggledReply = function(id) {
-                return id === _toggledReplyId;
+            var toggleId = { reply: 0, comments: 0 };
+            scope.getToggled = function(id,which) {
+                return id === toggleId[which];
             };
-            scope.setToggledReply = function(id) {
-                _toggledReplyId = _toggledReplyId !== id ? id : 0;
+            scope.setToggled = function(id,which) {
+                console.info(id,which)
+                toggleId[which] = id;
             };
             scope.parseDate = function(millis) {
                 var d = new Date(millis),
@@ -31,37 +32,83 @@ angular.module('myApp.activity.feed.feed-directives', [])
     }
 }])
 
-.directive('postInfo', [function() {
+.directive('postInfo', ['StateSignal',function(StateSignal) {
     return {
         restrict: 'EA',
         templateUrl: 'components/activity/feed/templates/post-info.html',
         scope: {
-            clickEvent: '&onReplyClicked',
-            closeEvent: '&onReplyClosed',
-            post: '=postDetails'
+            post: '=postDetails',
         },
         link: function(scope,elem,attrs) {
-            scope.vis = false;
-            scope.click = function() {
-                scope.clickEvent()
+            scope.commentVisible = false;
+            scope.replyVisible = false;
+
+            scope.clear = function(which) {
+                switch(which) {
+                    case 'comment': scope.commentVisible = false; break;
+                    case 'reply': scope.replyVisible = false; break;
+                    default: scope.commentVisible = scope.replyVisible = false;
+                }
+            };
+
+            StateSignal.listen('feed.posts.toggle', function(target) {
+                if(target.id !== scope.post._id) {
+                    scope.clear();
+                }
+            });
+
+            scope.replyClick = function() {
+                StateSignal.transmit('feed.posts.toggle', {action: 'reply',id: scope.post._id});
+                scope.replyVisible = !scope.replyVisible;
+                scope.clear('comment');
+            };
+
+            scope.commentClick = function() {
+                StateSignal.transmit('feed.posts.toggle', {action: 'comment',id: scope.post._id});
+                scope.commentVisible = !scope.commentVisible;
+                scope.clear('reply');
             }
         }
     }
 }])
-.directive('replyForm',['Feed',function(Feed) {
+.directive('commentArea', ['StateSignal',function(StateSignal) {
+    return {
+        restrict: 'EA',
+        templateUrl: 'components/activity/feed/templates/comment-area.html',
+        scope: {
+            comments: '=referTo',
+            postId: '=postId'
+        },
+        link: function(scope,elem,attrs) {
+            scope.shouldDiplay = false;
+
+            StateSignal.listen('feed.posts.toggle', function(target) {
+                if(target.action !== 'comment') { // This message doesn't apply here, ensure we are disabled
+                    scope.shouldDisplay = false;
+                } else if(target.id === scope.postId && target.action === 'comment') {
+                    scope.shouldDisplay = !scope.shouldDisplay;
+                } else {
+                    scope.shouldDisplay = false;
+                }
+            });
+            scope.cancel = function() {
+                scope.shouldDisplay = !scope.shouldDisplay;
+            };
+        }
+    }
+}])
+.directive('replyForm',['Feed','StateSignal',function(Feed,StateSignal) {
     return {
         restrict: 'EA',
         templateUrl: 'components/activity/feed/templates/reply-form.html',
         scope: {
-            show: '=show',
-            closeEvent: '&onClose',
             post: '=replyTo'
         },
         link: function(scope,elems,attrs) {
             scope.formData = { comment: "", author: ""};
+            scope.shouldDisplay = false;
             scope.cancel = function() {
-                scope.shouldDisplay = false;
-                scope.closeEvent();
+                scope.shouldDisplay = !scope.shouldDisplay;
             };
             scope.submit = function(data) {
                 Feed.submitReply({text: scope.formData.comment,
@@ -72,9 +119,15 @@ angular.module('myApp.activity.feed.feed-directives', [])
                         scope.cancel();
                     }).catch(function(err) {  console.error(err); });
             };
-            scope.$watch('show', function(newVal) {
-                scope.shouldDisplay = newVal;
-            })
+            StateSignal.listen('feed.posts.toggle', function(target) {
+                if(target.action !== 'reply') { // This message doesn't apply here, ensure we are disabled
+                    scope.shouldDisplay = false;
+                } else if(target.id === scope.post._id && target.action === 'reply') {
+                    scope.shouldDisplay = !scope.shouldDisplay;
+                } else {
+                    scope.shouldDisplay = false;
+                }
+            });
         }
     }
 }])
@@ -84,14 +137,10 @@ angular.module('myApp.activity.feed.feed-directives', [])
         restrict: 'EA',
         templateUrl: 'components/activity/feed/templates/comment.html',
         scope: {
-            comment: '=commentData',
-            isOpen: '=isOpen'
+            comment: '=commentData'
         },
         link: function(scope,elem,attrs) {
-            scope.shouldDisplay = false;
-            scope.$watch('isOpen', function(newVal) {
-                scope.shouldDisplay = newVal;
-            });
+
         }
     }
 }])

@@ -24,35 +24,23 @@
                         <h5 class="subheader">{{ post.body }}</h5>
                     </div>
                 </div>
-                <hr/>
+                <hr>
                 <div class="row">
-                    <post-info on-reply-clicked="setToggledReply(post._id)"
-                               on-reply-closed="getToggledReply(post._id)"
-                               post-details="post">
+                    <post-info post-details="post">
                     </post-info>
-
-                    <reply-form reply-to="post"
-                                show="getToggledReply(post._id)"
-                                on-close="setToggledReply(0)">
+                    <br>
+                    <reply-form reply-to="post">
                     </reply-form>
+                    <comment-area refer-to="post.comments" post-id="post._id">
+                    </comment-area>
+                </div>
 
-                    <div class="large-12 columns">
-                        <accordion close-others="oneAtATime">
-                            <accordion-group is-open="isopen">
-                                <accordion-heading>
-                                    {{ post.comments.length }} Comments
-                                    <i class="right icon-adjust" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}">
-                                    </i>
-                                </accordion-heading>
-                                <div class="row" ng-repeat="comment in post.comments">
-                                    <comment comment-data="comment" is-open="isopen"></comment>
-                                </div>
-                            </accordion-group>
-                        </accordion>
+                <div class="row">
+                    <div class="small-12">
+                        <div style="height: 3em"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr/>
     </div>
 </div>

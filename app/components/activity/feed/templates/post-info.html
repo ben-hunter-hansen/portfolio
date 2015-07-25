@@ -1,21 +1,31 @@
 <style>
     a.focused {
-        color: #f04124;
+        color: #007095;
     }
     a.inactive {
-        color: #43AC6A;
+        color: #a0d3e8;
     }
 </style>
-<div>
-    <div class="large-9 medium-9 small-8 columns">
-        <a href="#" class="button tiny left split no-pip">
-            {{ post.points }} Points
-            <span><i class="fa fa-thumbs-o-up"></i></span>
-        </a>
-    </div>
-    <div class="large-3 medium-3 small-4 columns">
-        <a href="#" class="right" ng-class="{focused: closeEvent(), inactive: !closeEvent()}" ng-click="click()">
-            <i ng-class="{'fa fa-comment fa-2x': !closeEvent(), 'fa fa-times-circle fa-2x': closeEvent()}"></i>
-        </a>
-    </div>
+<div class="large-9 medium-9 small-6 columns">
+    <a href="#" class="button tiny left split no-pip">
+        {{ post.points }} Points
+        <span><i class="fa fa-thumbs-o-up"></i></span>
+    </a>
+</div>
+<div class="large-3 medium-3 small-6 columns">
+    <ul class="inline-list right">
+        <li>
+            <a href="#" class="right"
+               ng-class="{focused: commentVisible, inactive: !commentVisible}"
+               ng-disabled="post.comments.length"
+               ng-click="commentClick()">
+                <i class="fa fa-comments fa-2x focused" ng-class="{inactive: !commentVisible}"></i>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="right" ng-class="{focused: replyVisible, inactive: !replyVisible}" ng-click="replyClick()">
+                <i class="fa fa-comment fa-2x focused" ng-class="{inactive: !commentVisible}"></i>
+            </a>
+        </li>
+    </ul>
 </div>
