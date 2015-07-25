@@ -64,13 +64,19 @@ var createPlaceholders = function(collection) {
         var typeCount = Math.floor((Math.random() * 5) + 1);
         for(var j = 0; j < typeCount; j++) {
             var post = {
+                _id: (1+i+j).toString() + "_pid_"+types[i],
                 type: types[i],
                 title: "@benhansen on " + types[i],
                 photo: _defaultPhotos[types[i]],
                 body: _postText,
                 points: Math.floor((Math.random() * 100) + 1),
                 posted_on: (Date.now() - Math.floor((Math.random() * (60 * 60 * 12) +1))),
-                comments: []
+                comments: [{
+                    author: "ben-hunter-hansen",
+                    photo: _defaultPhotos[types[i]],
+                    ref: (1+i+j).toString() + "_pid_"+types[i],
+                    text: "Heeeeloo",
+                }]
             };
             posts.push(post);
         }

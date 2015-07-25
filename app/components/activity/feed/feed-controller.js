@@ -22,7 +22,7 @@ angular.module('myApp.activity.feed.feed-controller',[])
             scope.loadComplete = true;
         });
     };
-    scope.getFeed('GitHub');
+    //scope.getFeed('GitHub');
     StateSignal.listen('tabbed', function(message) {
         if(angular.isDefined(scope.stopFeed)) {
             scope.feed = [];
