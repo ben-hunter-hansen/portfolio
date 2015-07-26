@@ -6,7 +6,9 @@
 var Result = function(err,doc) {
     if(err && doc) {
         this._result = Result.NotFound;
+        this._result.data = {};
     } else if(err) {
+        console.error(err);
         this._result = Result.Error;
     } else {
         this._result = Result.Ok;

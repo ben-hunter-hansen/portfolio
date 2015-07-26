@@ -31,10 +31,10 @@ var init = function() {
                 photo: _defaultPhotos[types[i]],
                 body: _postText,
                 points: Math.floor((Math.random() * 100) + 1),
-                posted_on: (Date.now() - Math.floor((Math.random() * (60 * 60 * 12) +1))),
+                posted_on: (Date.now() - Math.floor((Math.random() * (60 * 60 * 24 * 7) +1))),
                 comments: [{
                     author: "ben-hunter-hansen",
-                    photo: "assets/img/github_icon.png",
+                    photo: _defaultPhotos[types[i]],
                     ref: postId,
                     text: "Peer out window, chatter at birds, lure them to mouth. Play riveting piece on synthesizer keyboard peer out window, chatter at birds, lure them to mouth attack feet, or why must they do that, or shake treat bag, but hiss at vacuum cleaner. "
                 }]

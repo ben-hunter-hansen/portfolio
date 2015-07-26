@@ -5,33 +5,47 @@
 
 angular.module('myApp.activity.feed.feed-controller',[])
 
-.controller('FeedCtrl', ['StateSignal','Feed','$interval',function(StateSignal,Feed, $interval) {
+.controller('FeedCtrl', ['StateSignal','Feed','$q','$interval',function(StateSignal,Feed,$q,$interval) {
     var scope = this;
     scope.feed = [];
+    scope.intervals = [];
 
-    scope.stopFeed;
-    scope.getFeed = function(feedType) {
-        var step = function(posts) {
-            return function() {
-                scope.feed.push(posts.pop());
+    var feedReq = function(type,date,intervalId) {
+        var d = $q.defer();
+        Feed.next(type,date).then(function(resp) {
+            if(!resp) {
+                d.reject(resp);
+            } else {
+                d.resolve(resp);
             }
-        };
-        Feed.posts(feedType).then(function(dat) {
-            if(angular.isDefined(scope.stopFeed)) {
-                $interval.cancel(scope.stopFeed);
-            }
-            var posts = dat.data;
-            scope.stopFeed = $interval(step(posts),100,posts.length);
-            scope.loadComplete = true;
+        }, function(er) {
+            scope.intervals.pop();
+            d.reject(er);
+            $interval.cancel(intervalId);
         });
+        return d.promise;
     };
 
-    scope.getFeed('GitHub');
+    scope.getFeed = function(feedType,lastPostDate) {
+        var respDate = lastPostDate,
+            hadResponse = true;
+        var intervalId = $interval(function() {
+            if(hadResponse) {
+                hadResponse = !hadResponse;
+                feedReq(feedType,respDate,intervalId).then(function(resp) {
+                    scope.feed.push(resp);
+                    respDate = resp.posted_on;
+                    hadResponse = true;
+                }, function() { return false; });
+            }
+        },200);
+        scope.intervals.push(intervalId);
+    };
+
+    scope.getFeed('GitHub',0);
     StateSignal.listen('tabbed', function(message) {
-        if(angular.isDefined(scope.stopFeed)) {
-            scope.feed = [];
-            $interval.cancel(scope.stopFeed);
-        }
-        scope.getFeed(message.label);
+        scope.feed = [];
+        scope.intervals.forEach(function(id) { $interval.cancel(id); });
+        scope.getFeed(message.label,0);
     });
 }]);

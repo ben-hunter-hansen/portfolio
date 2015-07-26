@@ -2,7 +2,7 @@
  * Created by ben on 7/24/15.
  */
 var express = require('express'),
-    db = require('../database/db'),
+    Mongo = require('../database/db'),
     Result = require('./result');
 
 var ObjectId = require('mongodb').ObjectID;
@@ -16,8 +16,27 @@ Post.Fields = ["_id","title","body","photo","points","type","posted_on","comment
 
 Post.findByType = function(postType) {
     return new Promise(function(resolve) {
-        db.api.posts.all({type: postType}, function(err,posts) {
-            resolve(new Result(err,posts));
+        Mongo.getInstance(function(db) {
+            var posts = db.collection("posts").find({type:postType});
+            posts.toArray(function(err,docs) {
+                db.close();
+                resolve(new Result(err,docs));
+            });
+        });
+    });
+};
+
+Post.getNext = function(type,last) {
+    return new Promise(function(resolve) {
+        Mongo.getInstance(function(db) {
+            var posts = db.collection("posts");
+            posts.findOne({
+                type: type,
+                posted_on: { $gt: parseInt(last) }
+            },{ "sort": { "posted_on": 1 } }, function(err,doc) {
+                db.close();
+                resolve(new Result(err,doc));
+            });
         });
     });
 };
@@ -42,8 +61,12 @@ Post.prototype.id = function() {
 Post.prototype.add = function() {
     var that = this;
     return new Promise(function(resolve) {
-        db.api.posts.insert(that.json(), function(err, doc) {
-            resolve(new Result(err,doc));
+        Mongo.getInstance(function(db) {
+           var posts = db.collection("posts");
+            posts.insert(that.json(), function(err,doc) {
+                db.close();
+                resolve(new Result(err,doc));
+            });
         });
     });
 };
@@ -63,9 +86,12 @@ Post.prototype.vote = function() {
 Post.prototype.update = function(data) {
     var that = this;
     return new Promise(function(resolve) {
-        var predict = { _id: that.id() };
-        db.api.posts.update(predict,data,function(err) {
-            resolve(new Result(err,data));
+        Mongo.getInstance(function(db) {
+            var posts = db.collection("posts");
+            posts.update({ _id: that.id()},{$set: data}, function(err,doc) {
+                db.close();
+                resolve(new Result(err,data));
+            });
         });
     });
 };
