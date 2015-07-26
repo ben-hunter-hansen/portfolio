@@ -4,7 +4,7 @@
 
 angular.module('myApp.activity.feed.feed-factories', [])
 
-.factory('Feed',['$http', function($http) {
+.factory('Feed',['$http','$q', function($http,$q) {
 
     var _api = {
         comments: {
@@ -12,7 +12,8 @@ angular.module('myApp.activity.feed.feed-factories', [])
         },
         posts: {
             byType: "/feed/posts?type=",
-            vote: "/feed/posts/vote"
+            vote: "/feed/posts/vote",
+            next: "/feed/posts/next?type="
         }
     };
 
@@ -29,6 +30,13 @@ angular.module('myApp.activity.feed.feed-factories', [])
         },
         posts: function(type) {
             return $http.get(_api.posts.byType+type);
+        },
+        next: function(type,last) {
+            var deferred = $q.defer();
+            $http.get(_api.posts.next+type+"&last="+last).then(function(resp) {
+                deferred.resolve(resp.data);
+            },function(err) { deferred.reject(err) });
+            return deferred.promise;
         },
         vote: function(data) {
             return $http.put(_api.posts.vote, data);

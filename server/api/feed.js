@@ -42,4 +42,10 @@ router.get('/posts', function(req,res) {
    });
 });
 
+router.get('/posts/next',function(req,res) {
+    Post.getNext(req.query.type,req.query.last).then(function(result) {
+        res.status(result.status()).send(result.data());
+    });
+});
+
 module.exports = router;

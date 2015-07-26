@@ -2,7 +2,7 @@
  * Created by ben on 7/23/15.
  */
 var express = require('express'),
-    db = require('../database/db'),
+    Mongo = require('../database/db'),
     Result = require('./result'),
     ObjectId = require('mongodb').ObjectID;
 
@@ -30,9 +30,14 @@ Comment.prototype.json = function() {
 Comment.prototype.add = function() {
     var predict = {_id: new ObjectId(this._ref)},
         document = this.json();
+
     return new Promise(function(resolve) {
-        db.api.comments.update(predict, document, function(err) {
-            resolve(new Result(err,document));
+        Mongo.getInstance(function(db) {
+            var posts = db.collection("posts");
+            posts.update(predict,{$addToSet: {comments: document}}, function(err) {
+                db.close();
+                resolve(new Result(err,document));
+            });
         });
     });
 };
