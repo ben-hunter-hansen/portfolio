@@ -5,47 +5,28 @@
 
 angular.module('myApp.activity.feed.feed-controller',[])
 
-.controller('FeedCtrl', ['StateSignal','Feed','$q','$interval',function(StateSignal,Feed,$q,$interval) {
+.controller('FeedCtrl', ['StateSignal','Feed',function(StateSignal,Feed) {
     var scope = this;
     scope.feed = [];
-    scope.intervals = [];
 
-    var feedReq = function(type,date,intervalId) {
-        var d = $q.defer();
-        Feed.next(type,date).then(function(resp) {
-            if(!resp) {
-                d.reject(resp);
-            } else {
-                d.resolve(resp);
-            }
-        }, function(er) {
-            scope.intervals.pop();
-            d.reject(er);
-            $interval.cancel(intervalId);
-        });
-        return d.promise;
+    var onSuccess = function() {
+        // Implement this as needed
     };
 
-    scope.getFeed = function(feedType,lastPostDate) {
-        var respDate = lastPostDate,
-            hadResponse = true;
-        var intervalId = $interval(function() {
-            if(hadResponse) {
-                hadResponse = !hadResponse;
-                feedReq(feedType,respDate,intervalId).then(function(resp) {
-                    scope.feed.push(resp);
-                    respDate = resp.posted_on;
-                    hadResponse = true;
-                }, function() { return false; });
-            }
-        },200);
-        scope.intervals.push(intervalId);
+    var onNotify = function(data) {
+        scope.feed.push(data);
     };
 
-    scope.getFeed('GitHub',0);
+    var onError = function(err) {
+        console.error(err);
+    };
+
+    Feed.loadAsync('GitHub',0)
+        .then(onSuccess,onError,onNotify);
+
     StateSignal.listen('tabbed', function(message) {
         scope.feed = [];
-        scope.intervals.forEach(function(id) { $interval.cancel(id); });
-        scope.getFeed(message.label,0);
+        Feed.loadAsync(message.label,0)
+            .then(onSuccess,onError,onNotify);
     });
 }]);

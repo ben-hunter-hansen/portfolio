@@ -35,7 +35,7 @@ angular.module('myApp.activity.feed.feed-factories', [])
             var deferred = $q.defer();
             $http.get(_api.posts.next+type+"&last="+last).then(function(resp) {
                 deferred.resolve(resp.data);
-            },function(err) { deferred.reject(err) });
+            }, function() { deferred.reject("done") });
             return deferred.promise;
         },
         vote: function(data) {
@@ -44,6 +44,29 @@ angular.module('myApp.activity.feed.feed-factories', [])
         submitReply: function(reply) {
             var payload = { text: reply.text, ref: reply.postId, photo: _defaultPhotos[reply.type.toLowerCase()], author: reply.author  };
             return $http.post(_api.comments.add, payload);
+        },
+        loadAsync: function(type,last) {
+            var deferred = $q.defer();
+            var that = this;
+
+            // Recursive promise chain for fetching posts
+            function repeatLoad(resp) {
+                var d = $q.defer();
+
+                // Request the next post based on the previous response object
+                that.next(resp.type,resp.posted_on).then(function(post) {
+                    if(post) {
+                        deferred.notify(post);   // Response is good, pass the post data back to the top level
+                        return repeatLoad(post); // Recursive case, there is still more to load
+                    } else {
+                        d.resolve("done"); // Base case, last call returned null
+                    }
+                });
+                return d.promise;
+            }
+
+            deferred.resolve(repeatLoad({type: type, posted_on: last}));
+            return deferred.promise;
         }
     }
 }]);
